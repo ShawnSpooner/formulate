@@ -42,5 +42,6 @@
 -(void)erase;
 -(UIImage *) glToUIImage;
 -(void)styleThis;
+-(void)buildOutDrawingArea;
 
 @end
