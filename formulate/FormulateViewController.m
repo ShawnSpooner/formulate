@@ -9,29 +9,26 @@
 #import "FormulateViewController.h"
 #import "Utilities.h"
 #import "PdfHelper.h"
+#import "PdfAnnotations.h"
+#import "AnnotationData.h"
 
 @implementation FormulateViewController
 
 
 - (id)init {
-    if (self = [super init]) {
+    if ((self = [super init])) {
 		CFURLRef pdfURL = CFBundleCopyResourceURL(CFBundleGetMainBundle(), CFSTR("form.pdf"), NULL, NULL);
 		NSLog(@"init pdf url of %@", pdfURL);
-        pdf = CGPDFDocumentCreateWithURL((CFURLRef)pdfURL);
-		pdfWrapper = [[PdfHelper alloc] initWithPdf:pdfURL]; 
+		pdfWrapper = [[PdfHelper alloc] initWithPdf:pdfURL];
+        pdf = pdfWrapper.pdf;
         CFRelease(pdfURL);
     }
     return self;
 }
 
--(void)loadPdf:(CFURLRef) pdfURL {
-    NSLog(@"pdf url of %@", pdfURL);
-    pdf = CGPDFDocumentCreateWithURL((CFURLRef)pdfURL);
-    CFRelease(pdfURL);
-}
-
 - (void)dealloc {
-	CGPDFDocumentRelease(pdf);
+    CFRelease(page);
+	[pdfWrapper release];
     [super dealloc];
 }
 
@@ -55,168 +52,71 @@
 }
 
 - (void) renderPageAtIndex:(NSUInteger)index inContext:(CGContextRef)ctx {
-    NSLog(@"Rendering page at %d", index + 1);
-	CGPDFPageRef page = CGPDFDocumentGetPage(pdf, index + 1);
+    int pageNumber = index + 1;
+    NSLog(@"Rendering page at %d", pageNumber);
+	page = CGPDFDocumentGetPage(pdf, pageNumber);
 	CGAffineTransform transform = aspectFit(CGPDFPageGetBoxRect(page, kCGPDFMediaBox),
 											CGContextGetClipBoundingBox(ctx));
 	CGContextConcatCTM(ctx, transform);
 	CGContextDrawPDFPage(ctx, page);
     
-    CGPDFPageRef pageAd = CGPDFDocumentGetPage(pdf, index);
-    
-    CGPDFDictionaryRef pageDictionary = CGPDFPageGetDictionary(pageAd);
-    
-    CGPDFArrayRef outputArray;
-    if(!CGPDFDictionaryGetArray(pageDictionary, "Annots", &outputArray)) {
-        NSLog(@"bailing out %@  ad is %@ index %d", pageDictionary, pageAd, index);
-        return;
-    }
-    
-    int arrayCount = CGPDFArrayGetCount( outputArray );
-    
-    for( int j = 0; j < arrayCount; ++j ) {
-        CGPDFObjectRef aDictObj;
-        if(!CGPDFArrayGetObject(outputArray, j, &aDictObj)) {
-            return;
-        }
+    PdfAnnotations *fields = [pdfWrapper formElements:[pdfWrapper formFieldsonPage:pageNumber]];
+    [self renderTextFields:[fields getTextFields]];
+}
+
+-(void) renderTextFields:(NSDictionary*) fields{ 
+    for(id key in fields){
+        AnnotationData *data = [fields objectForKey:key];
+        CGRect rawPosition = data.position;
         
-        CGPDFDictionaryRef annotDict;
-        if(!CGPDFObjectGetValue(aDictObj, kCGPDFObjectTypeDictionary, &annotDict)) {
-            return;
-        }
-        
-        CGPDFDictionaryRef aDict;
-        if(!CGPDFDictionaryGetDictionary(annotDict, "A", &aDict)) {
-            return;
-        }
-        
-        CGPDFStringRef uriStringRef;
-        if(!CGPDFDictionaryGetString(aDict, "URI", &uriStringRef)) {
-            return;
-        }
-        
-        CGPDFArrayRef rectArray;
-        if(!CGPDFDictionaryGetArray(annotDict, "Rect", &rectArray)) {
-            return;
-        }
-        
-        int arrayCount = CGPDFArrayGetCount( rectArray );
-        CGPDFReal coords[4];
-        for( int k = 0; k < arrayCount; ++k ) {
-            CGPDFObjectRef rectObj;
-            if(!CGPDFArrayGetObject(rectArray, k, &rectObj)) {
-                return;
-            }
-            
-            CGPDFReal coord;
-            if(!CGPDFObjectGetValue(rectObj, kCGPDFObjectTypeReal, &coord)) {
-                return;
-            }
-            
-            coords[k] = coord;
-        }               
+        CGPoint newOrigin = [self convertPDFPointToViewPoint:CGPointMake(rawPosition.origin.x, rawPosition.origin.y)];
+        CGPoint newTerminus = [self convertPDFPointToViewPoint:CGPointMake(rawPosition.size.width, rawPosition.size.height)];
+
+        CGRect adjustedPosition = CGRectMake(newOrigin.x, newOrigin.y, newTerminus.x - newOrigin.x, newTerminus.y - newOrigin.y);
+        UITextField *pdfTextField = [[UITextField alloc] initWithFrame:adjustedPosition];
+        pdfTextField.borderStyle = UITextBorderStyleRoundedRect;
+        pdfTextField.placeholder = data.displayName;
+        [[self view] addSubview:pdfTextField];
     }
 }
 
-/*-(void) bogusRender{
-  
-    CGPDFPageRef page = CGPDFDocumentGetPage(pdf, index+1);
-    CGAffineTransform transform1 = aspectFit(CGPDFPageGetBoxRect(page, kCGPDFMediaBox),
-                                             CGContextGetClipBoundingBox(ctx));
-    CGContextConcatCTM(ctx, transform1);
-    CGContextDrawPDFPage(ctx, page);
+//taken from http://ipdfdev.com/2011/06/21/links-navigation-in-a-pdf-document-on-iphone-and-ipad/
+- (CGPoint)convertPDFPointToViewPoint:(CGPoint)pdfPoint {
+    CGPoint viewPoint = CGPointMake(0, 0);
     
+    CGRect cropBox = CGPDFPageGetBoxRect(page, kCGPDFCropBox);
     
-    CGPDFPageRef pageAd = CGPDFDocumentGetPage(pdf, index);
+    int rotation = CGPDFPageGetRotationAngle(page);
+    CGRect currentViewBounds = [[self view] frame];
     
-    CGPDFDictionaryRef pageDictionary = CGPDFPageGetDictionary(pageAd);
-    
-    CGPDFArrayRef outputArray;
-    if(!CGPDFDictionaryGetArray(pageDictionary, "Annots", &outputArray)) {
-        return;
+    switch (rotation) {
+        case 90:
+        case -270:
+            viewPoint.x = currentViewBounds.size.width * (pdfPoint.y - cropBox.origin.y) / cropBox.size.height;
+            viewPoint.y = currentViewBounds.size.height * (pdfPoint.x - cropBox.origin.x) / cropBox.size.width;
+            break;
+        case 180:
+        case -180:
+            viewPoint.x = currentViewBounds.size.width * (cropBox.size.width - (pdfPoint.x - cropBox.origin.x)) / cropBox.size.width;
+            viewPoint.y = currentViewBounds.size.height * (pdfPoint.y - cropBox.origin.y) / cropBox.size.height;
+            break;
+        case -90:
+        case 270:
+            viewPoint.x = currentViewBounds.size.width * (cropBox.size.height - (pdfPoint.y - cropBox.origin.y)) / cropBox.size.height;
+            viewPoint.y = currentViewBounds.size.height * (cropBox.size.width - (pdfPoint.x - cropBox.origin.x)) / cropBox.size.width;
+            break;
+        case 0:
+        default:
+            viewPoint.x = currentViewBounds.size.width * (pdfPoint.x - cropBox.origin.x) / cropBox.size.width;
+            viewPoint.y = currentViewBounds.size.height * (cropBox.size.height - pdfPoint.y) / cropBox.size.height;
+            break;
     }
     
-    int arrayCount = CGPDFArrayGetCount( outputArray );
-    if(!arrayCount) {
-        //continue;
-    }
+    viewPoint.x = viewPoint.x + currentViewBounds.origin.x;
+    viewPoint.y = viewPoint.y + currentViewBounds.origin.y;
     
-    for( int j = 0; j < arrayCount; ++j ) {
-        CGPDFObjectRef aDictObj;
-        if(!CGPDFArrayGetObject(outputArray, j, &aDictObj)) {
-            return;
-        }
-        
-        CGPDFDictionaryRef annotDict;
-        if(!CGPDFObjectGetValue(aDictObj, kCGPDFObjectTypeDictionary, &annotDict)) {
-            return;
-        }
-        
-        CGPDFDictionaryRef aDict;
-        if(!CGPDFDictionaryGetDictionary(annotDict, "A", &aDict)) {
-            return;
-        }
-        
-        CGPDFStringRef uriStringRef;
-        if(!CGPDFDictionaryGetString(aDict, "URI", &uriStringRef)) {
-            return;
-        }
-        
-        CGPDFArrayRef rectArray;
-        if(!CGPDFDictionaryGetArray(annotDict, "Rect", &rectArray)) {
-            return;
-        }
-        
-        int arrayCount = CGPDFArrayGetCount( rectArray );
-        CGPDFReal coords[4];
-        for( int k = 0; k < arrayCount; ++k ) {
-            CGPDFObjectRef rectObj;
-            if(!CGPDFArrayGetObject(rectArray, k, &rectObj)) {
-                return;
-            }
-            
-            CGPDFReal coord;
-            if(!CGPDFObjectGetValue(rectObj, kCGPDFObjectTypeReal, &coord)) {
-                return;
-            }
-            
-            coords[k] = coord;
-        }               
-        
-        char *uriString = (char *)CGPDFStringGetBytePtr(uriStringRef);
-        
-        NSString *uri = [NSString stringWithCString:uriString encoding:NSUTF8StringEncoding];
-        CGRect rect = CGRectMake(coords[0],coords[1],coords[2],coords[3]);
-        CGPDFInteger pageRotate = 0;
-        CGPDFDictionaryGetInteger( pageDictionary, "Rotate", &pageRotate ); 
-        CGRect pageRect = CGRectIntegral( CGPDFPageGetBoxRect( page, kCGPDFMediaBox ));
-        if( pageRotate == 90 || pageRotate == 270 ) {
-            CGFloat temp = pageRect.size.width;
-            pageRect.size.width = pageRect.size.height;
-            pageRect.size.height = temp;
-        }
-        
-        rect.size.width -= rect.origin.x;
-        rect.size.height -= rect.origin.y;
-        
-        CGAffineTransform trans = CGAffineTransformIdentity;
-        trans = CGAffineTransformTranslate(trans, 35, pageRect.size.height+150);
-        trans = CGAffineTransformScale(trans, 1.15, -1.15);
-        
-        rect = CGRectApplyAffineTransform(rect, trans);
-        
-        //urlLink = [NSURL URLWithString:uri];
-        [//urlLink retain];
-        
-        //Create a button to get link actions
-        //button = [[UIButton alloc] initWithFrame:rect];
-        //[button setBackgroundImage:[UIImage imageNamed:@"link_bg.png"] forState:UIControlStateHighlighted];
-        //[button addTarget:self action:@selector(openLink:) forControlEvents:UIControlEventTouchUpInside];
-        //[self.view addSubview:button];
-    }   
-    [leavesView reloadData];
-}*/
-
+    return viewPoint;
+}
 
 - (void) viewDidLoad {
 	[super viewDidLoad];

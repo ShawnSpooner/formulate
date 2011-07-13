@@ -7,7 +7,8 @@
 //
 
 #import "PdfHelper.h"
-
+#import "PDfAnnotations.h"
+#import "AnnotationData.h"
 
 @implementation PdfHelper
 @synthesize pdf;
@@ -16,10 +17,8 @@
 {
     self = [super init];
     if (self) {
-        NSLog(@"has self");
         self.pdf = [PdfHelper load:pdfUrl];
     }
-    NSLog(@"loaded");
     return self;
 }
 
@@ -51,42 +50,65 @@
     return [PdfHelper annotations:pdf onPage:1];
 }
 
--(NSDictionary*) formElements:(CGPDFArrayRef) annotations
+-(PdfAnnotations*) formElements:(CGPDFArrayRef) annotations
 {
-    NSMutableDictionary *formElements = [[NSMutableDictionary alloc] init];
-    int arrayCount = CGPDFArrayGetCount( annotations );
-    for( int j = 0; j < arrayCount; ++j ) {
-        CGPDFObjectRef aDictObj;
-        if(!CGPDFArrayGetObject(annotations, j, &aDictObj)) {
-            break;
-        }
+    PdfAnnotations* pdfAnnotations = [[PdfAnnotations alloc] init];
+    if (annotations != NULL) {
+        int annotsCount = CGPDFArrayGetCount(annotations);
         
-        CGPDFDictionaryRef annotDict;
-        if(!CGPDFObjectGetValue(aDictObj, kCGPDFObjectTypeDictionary, &annotDict)) {
-            break;
-        }
-        
-        CGPDFDictionaryRef aDict;
-        if(!CGPDFDictionaryGetDictionary(annotDict, "Tx", &aDict)) {
-            break;
-        }
-        
-        CGPDFStringRef uriStringRef;
-        if(!CGPDFDictionaryGetString(aDict, "T", &uriStringRef)) {
-            break;
-        }
-        
-        CGPDFArrayRef rectArray;
-        if(!CGPDFDictionaryGetArray(annotDict, "Rect", &rectArray)) {
-            break;
-        }
-        
-        [self retrieveCoordinates: rectArray];
+        for (int j = 0; j < annotsCount; j++) {
+            CGPDFDictionaryRef annotationDictionary = NULL;            
+            if (CGPDFArrayGetDictionary(annotations, j, &annotationDictionary)) {
+                const char *type;
+                CGPDFDictionaryGetName(annotationDictionary, "Subtype", &type);
+                
+                if(strcmp(type, "Widget") == 0){
+                    const char *fieldType;
+                    if(!CGPDFDictionaryGetName(annotationDictionary, "FT", &fieldType)) {
+                        break;
+                    }
+
+                    CGPDFStringRef fullName;
+                    if(!CGPDFDictionaryGetString(annotationDictionary, "T", &fullName)) {
+                        break;
+                    }
+                    
+                    CGPDFArrayRef rectArray;
+                    if(!CGPDFDictionaryGetArray(annotationDictionary, "Rect", &rectArray)) {
+                        break;
+                    }
+ 
+                    CGPDFStringRef fieldName;
+                    CGPDFDictionaryGetString(annotationDictionary, "TU", &fieldName);                           
+                    
+                    CGRect coordinates = [self retrieveCoordinates: rectArray];
+                    NSString* displayName = (NSString *) CGPDFStringCopyTextString(fieldName);
+                    AnnotationData* data = [[AnnotationData alloc] initWithPosition:coordinates andDisplay:displayName];
+                    NSString* key = (NSString *) CGPDFStringCopyTextString(fullName);
+                    //#TODO break this out into other methods
+                    if(strcmp(fieldType, "Tx") == 0){
+                        [pdfAnnotations addTextEntry:key withValue:data];
+                    }
+                    else if(strcmp(fieldType, "Btn") == 0){
+                        const char *buttonType;
+                        if(!CGPDFDictionaryGetName(annotationDictionary, "Ff", &buttonType)) {
+                            [pdfAnnotations addCheckboxEntry:key withValue:data];
+                        }
+                    }
+                    else if(strcmp(fieldType, "Sig") == 0){
+                        [pdfAnnotations addSignatureEntry:key withValue:data];
+                    }
+                    else{
+                         NSLog(@"Unhandled type %s", fieldType);
+                    }
+                }
+            }
+        }  
     }
-    return formElements;
+    return pdfAnnotations;
 }
 
--(CGPDFReal)retrieveCoordinates:(CGPDFArrayRef) coordinateArray
+-(CGRect)retrieveCoordinates:(CGPDFArrayRef) coordinateArray
 {
     int arrayCount = CGPDFArrayGetCount( coordinateArray );
     CGPDFReal coords[4];
@@ -103,7 +125,9 @@
         
         coords[k] = coord;
     }
-
+    CGPDFReal x = coords[0];
+    CGPDFReal y = coords[1];
+    return CGRectMake(x, y, coords[2], coords[3]);
 }
 
 @end

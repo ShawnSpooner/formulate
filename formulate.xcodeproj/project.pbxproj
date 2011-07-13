@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		895A165C13CBABF6000F4CE5 /* PdfAnnotations.m in Sources */ = {isa = PBXBuildFile; fileRef = 895A165B13CBABF6000F4CE5 /* PdfAnnotations.m */; };
+		895A166013CBADFC000F4CE5 /* AnnotationData.m in Sources */ = {isa = PBXBuildFile; fileRef = 895A165F13CBADFC000F4CE5 /* AnnotationData.m */; };
 		895D566713B9093600945CA4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 895D566613B9093600945CA4 /* UIKit.framework */; };
 		895D566913B9093600945CA4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 895D566813B9093600945CA4 /* Foundation.framework */; };
 		895D566B13B9093600945CA4 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 895D566A13B9093600945CA4 /* CoreGraphics.framework */; };
@@ -42,6 +44,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		895A165A13CBABF6000F4CE5 /* PdfAnnotations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PdfAnnotations.h; sourceTree = "<group>"; };
+		895A165B13CBABF6000F4CE5 /* PdfAnnotations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PdfAnnotations.m; sourceTree = "<group>"; };
+		895A165E13CBADFC000F4CE5 /* AnnotationData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnnotationData.h; sourceTree = "<group>"; };
+		895A165F13CBADFC000F4CE5 /* AnnotationData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnnotationData.m; sourceTree = "<group>"; };
 		895D566213B9093600945CA4 /* formulate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = formulate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		895D566613B9093600945CA4 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		895D566813B9093600945CA4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -189,6 +195,10 @@
 			children = (
 				89B197F713BA368700E50D5F /* PdfHelper.h */,
 				89B197F813BA368700E50D5F /* PdfHelper.m */,
+				895A165A13CBABF6000F4CE5 /* PdfAnnotations.h */,
+				895A165B13CBABF6000F4CE5 /* PdfAnnotations.m */,
+				895A165E13CBADFC000F4CE5 /* AnnotationData.h */,
+				895A165F13CBADFC000F4CE5 /* AnnotationData.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -330,6 +340,8 @@
 				89E201E613B92B9B00AE24CB /* LeavesViewController.m in Sources */,
 				89E201EE13B930D500AE24CB /* Utilities.m in Sources */,
 				89B197F913BA368700E50D5F /* PdfHelper.m in Sources */,
+				895A165C13CBABF6000F4CE5 /* PdfAnnotations.m in Sources */,
+				895A166013CBADFC000F4CE5 /* AnnotationData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

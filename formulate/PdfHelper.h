@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+@class PdfAnnotations;
 
 @interface PdfHelper : NSObject {
 @private
@@ -21,6 +22,6 @@
 -(CGPDFArrayRef)formFieldsonPage:(int)page;
 +(CGPDFDocumentRef)load:(CFURLRef)pdfURL;
 +(CGPDFArrayRef)annotations:(CGPDFDocumentRef)pdf onPage:(int)page;
--(NSDictionary*) formElements:(CGPDFArrayRef) annotations;
--(CGPDFReal)retrieveCoordinates:(CGPDFArrayRef)coordinateArray;
+-(PdfAnnotations*) formElements:(CGPDFArrayRef) annotations;
+-(CGRect)retrieveCoordinates:(CGPDFArrayRef)coordinateArray;
 @end

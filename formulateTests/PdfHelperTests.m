@@ -8,7 +8,8 @@
 
 #import "PdfHelperTests.h"
 #import "PdfHelper.h"
-
+#import "PDfAnnotations.h"
+#import "AnnotationData.h"
 
 @implementation PdfHelperTests
 
@@ -40,15 +41,50 @@
 {
     CGPDFArrayRef outputArray = [PdfHelper annotations:pdf onPage:1];
     int count = CGPDFArrayGetCount(outputArray);
-    STAssertEquals(38, count, @"the annots array should contain 38 fields", count);  
+    //NSLog(@"array contains %@", outputArray);
+    STAssertEquals(38, count, @"the annots array should contain 38 fields", count); 
 }
 
--(void)testRetrievingTheFormFieldsShouldReturn18TextFields
+-(void)testRetrievingTheFormFieldsShouldReturn16TextFields
 {
-    NSDictionary* fields = [helper formElements:[helper formFieldsonPage:1]];
-    int count = [fields count];
-    STAssertEquals(18, count, @"the annots array should contain 18 text fields on page 1", count);  
+    PdfAnnotations* fields = [helper formElements:[helper formFieldsonPage:1]];
+    int count = [[fields getTextFields] count];
+    STAssertEquals(16, count, @"the annots array should contain 16 text fields on page 1", count);  
 }
 
+-(void)testLastNameShouldHaveDisplayNameOfLast
+{
+    PdfAnnotations* fields = [helper formElements:[helper formFieldsonPage:1]];
+    AnnotationData* data = [[fields getTextFields] objectForKey:@"Name_Last"];
+    STAssertTrue([data.displayName isEqualToString:@"LAST"] , @"last name text field should have a display name of LAST", data.displayName);
+}
 
+-(void)testLastNameShouldHaveTheCorrectDisplayCoordinates                                                                                                                                                                                                                                                                     
+{
+    PdfAnnotations* fields = [helper formElements:[helper formFieldsonPage:1]];
+    AnnotationData* data = [[fields getTextFields] objectForKey:@"Name_Last"];
+    CGRect expected = CGRectMake(30.119999, 400.91998, 272.75998, 419.64001);
+    STAssertEquals(expected, data.position, @"the last name field shoudl be at the correct position", data.position);  
+}
+
+-(void)testRetrievingTheFormFieldsShouldReturn9CheckBoxFields
+{
+    PdfAnnotations* fields = [helper formElements:[helper formFieldsonPage:1]];
+    int count = [[fields getCheckboxFields] count];
+    STAssertEquals(9, count, @"the annots array should contain 9 checkbox fields on page 1", count);  
+}
+
+-(void)testRetrievingTheFormFieldsShouldReturn1SignatureField
+{
+    PdfAnnotations* fields = [helper formElements:[helper formFieldsonPage:1]];
+    int count = [[fields getSignatureFields] count];
+    STAssertEquals(1, count, @"the annots array should contain 1 signature fields on page 1", count);  
+}
+
+-(void)testEmployeeSignatureShouldHaveANameOfEmployeeSignature
+{
+    PdfAnnotations* fields = [helper formElements:[helper formFieldsonPage:1]];
+    AnnotationData* data = [[fields getSignatureFields] objectForKey:@"EMPLOYEE SIGNATURE"];
+    STAssertTrue([data.displayName isEqualToString:@"EMPLOYEE SIGNATURE"] , @"Employee Signature Should Have A Name Of Employee Signature", data.displayName);
+}
 @end

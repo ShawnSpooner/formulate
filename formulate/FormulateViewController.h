@@ -14,7 +14,9 @@
 @interface FormulateViewController : LeavesViewController {
     CGPDFDocumentRef pdf;
     PdfHelper* pdfWrapper;
+    CGPDFPageRef page;
 }
-
--(void)loadPdf:(CFURLRef)pdfPath;
+-(void) renderTextFields:(NSDictionary*) fields;
+//taken from here http://ipdfdev.com/2011/06/21/links-navigation-in-a-pdf-document-on-iphone-and-ipad/
+- (CGPoint)convertPDFPointToViewPoint:(CGPoint)pdfPoint;
 @end
