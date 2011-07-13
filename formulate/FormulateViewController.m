@@ -11,6 +11,7 @@
 #import "PdfHelper.h"
 #import "PdfAnnotations.h"
 #import "AnnotationData.h"
+#import "SimpleCheckbox.h"
 
 @implementation FormulateViewController
 
@@ -62,22 +63,45 @@
     
     PdfAnnotations *fields = [pdfWrapper formElements:[pdfWrapper formFieldsonPage:pageNumber]];
     [self renderTextFields:[fields getTextFields]];
+    [self renderCheckboxFields:[fields getCheckboxFields]];
 }
 
 -(void) renderTextFields:(NSDictionary*) fields{ 
     for(id key in fields){
         AnnotationData *data = [fields objectForKey:key];
-        CGRect rawPosition = data.position;
-        
-        CGPoint newOrigin = [self convertPDFPointToViewPoint:CGPointMake(rawPosition.origin.x, rawPosition.origin.y)];
-        CGPoint newTerminus = [self convertPDFPointToViewPoint:CGPointMake(rawPosition.size.width, rawPosition.size.height)];
-
-        CGRect adjustedPosition = CGRectMake(newOrigin.x, newOrigin.y, newTerminus.x - newOrigin.x, newTerminus.y - newOrigin.y);
+        CGRect adjustedPosition = [self convertToDisplay:data.position];
         UITextField *pdfTextField = [[UITextField alloc] initWithFrame:adjustedPosition];
         pdfTextField.borderStyle = UITextBorderStyleRoundedRect;
-        pdfTextField.placeholder = data.displayName;
+        //pdfTextField.placeholder = data.displayName;
+        //pdfTextField.layer.borderColor=[[UIColor greenColor]CGColor];
+        //pdfTextField.layer.borderWidth= 1.0f;
+        //pdfTextField.layer.cornerRadius=8.0f;
+        
         [[self view] addSubview:pdfTextField];
     }
+}
+
+-(void) renderCheckboxFields:(NSDictionary*) fields{ 
+ 
+    for(id key in fields){
+        AnnotationData *data = [fields objectForKey:key];
+        CGRect adjustedPosition = [self convertToDisplay:data.position];
+        
+        SimpleCheckbox *pdfCheckbox = [[SimpleCheckbox alloc] initWithFrame:adjustedPosition];
+
+        CALayer * border = [pdfCheckbox layer];
+        [border setMasksToBounds:YES];
+        [border setBorderWidth:1.0];
+        [border setBorderColor:[[UIColor greenColor] CGColor]];
+        [[self view] addSubview:pdfCheckbox];
+    }
+}
+
+-(CGRect)convertToDisplay:(CGRect)rawPosition{
+    CGPoint newOrigin = [self convertPDFPointToViewPoint:CGPointMake(rawPosition.origin.x, rawPosition.origin.y)];
+    CGPoint newTerminus = [self convertPDFPointToViewPoint:CGPointMake(rawPosition.size.width, rawPosition.size.height)];
+    int yOffset = 22;//#TODO figure out why we are not lined up properly
+    return CGRectMake(newOrigin.x, newOrigin.y - yOffset, newTerminus.x - newOrigin.x, newTerminus.y - newOrigin.y);   
 }
 
 //taken from http://ipdfdev.com/2011/06/21/links-navigation-in-a-pdf-document-on-iphone-and-ipad/

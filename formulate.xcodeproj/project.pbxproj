@@ -25,6 +25,9 @@
 		895D569613B9093600945CA4 /* formulateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 895D569513B9093600945CA4 /* formulateTests.m */; };
 		89B197F913BA368700E50D5F /* PdfHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B197F813BA368700E50D5F /* PdfHelper.m */; };
 		89B197FC13BA464300E50D5F /* PdfHelperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 89B197FB13BA464300E50D5F /* PdfHelperTests.m */; };
+		89D4D34A13CE00D200CD1455 /* SimpleCheckbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D4D34913CE00D200CD1455 /* SimpleCheckbox.m */; };
+		89D4D34D13CE22B100CD1455 /* checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 89D4D34B13CE22B100CD1455 /* checked.png */; };
+		89D4D34E13CE22B100CD1455 /* clear.png in Resources */ = {isa = PBXBuildFile; fileRef = 89D4D34C13CE22B100CD1455 /* clear.png */; };
 		89E201E413B92B9B00AE24CB /* LeavesCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E201DF13B92B9B00AE24CB /* LeavesCache.m */; };
 		89E201E513B92B9B00AE24CB /* LeavesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E201E113B92B9B00AE24CB /* LeavesView.m */; };
 		89E201E613B92B9B00AE24CB /* LeavesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E201E313B92B9B00AE24CB /* LeavesViewController.m */; };
@@ -71,6 +74,10 @@
 		89B197F813BA368700E50D5F /* PdfHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PdfHelper.m; sourceTree = "<group>"; };
 		89B197FA13BA464300E50D5F /* PdfHelperTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PdfHelperTests.h; sourceTree = "<group>"; };
 		89B197FB13BA464300E50D5F /* PdfHelperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PdfHelperTests.m; sourceTree = "<group>"; };
+		89D4D34813CE00D200CD1455 /* SimpleCheckbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleCheckbox.h; sourceTree = "<group>"; };
+		89D4D34913CE00D200CD1455 /* SimpleCheckbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleCheckbox.m; sourceTree = "<group>"; };
+		89D4D34B13CE22B100CD1455 /* checked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checked.png; sourceTree = "<group>"; };
+		89D4D34C13CE22B100CD1455 /* clear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clear.png; sourceTree = "<group>"; };
 		89E201DE13B92B9B00AE24CB /* LeavesCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LeavesCache.h; path = leaves/Leaves/LeavesCache.h; sourceTree = "<group>"; };
 		89E201DF13B92B9B00AE24CB /* LeavesCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LeavesCache.m; path = leaves/Leaves/LeavesCache.m; sourceTree = "<group>"; };
 		89E201E013B92B9B00AE24CB /* LeavesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LeavesView.h; path = leaves/Leaves/LeavesView.h; sourceTree = "<group>"; };
@@ -143,6 +150,7 @@
 		895D566C13B9093600945CA4 /* formulate */ = {
 			isa = PBXGroup;
 			children = (
+				89D4D34613CE00B200CD1455 /* Controls */,
 				89B197F613BA366400E50D5F /* Models */,
 				895D567513B9093600945CA4 /* formulateAppDelegate.h */,
 				895D567613B9093600945CA4 /* formulateAppDelegate.m */,
@@ -156,6 +164,8 @@
 		895D566D13B9093600945CA4 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				89D4D34B13CE22B100CD1455 /* checked.png */,
+				89D4D34C13CE22B100CD1455 /* clear.png */,
 				89E2023A13B935B000AE24CB /* form.pdf */,
 				895D567813B9093600945CA4 /* MainWindow.xib */,
 				89E201EC13B930D500AE24CB /* Utilities.h */,
@@ -201,6 +211,15 @@
 				895A165F13CBADFC000F4CE5 /* AnnotationData.m */,
 			);
 			name = Models;
+			sourceTree = "<group>";
+		};
+		89D4D34613CE00B200CD1455 /* Controls */ = {
+			isa = PBXGroup;
+			children = (
+				89D4D34813CE00D200CD1455 /* SimpleCheckbox.h */,
+				89D4D34913CE00D200CD1455 /* SimpleCheckbox.m */,
+			);
+			name = Controls;
 			sourceTree = "<group>";
 		};
 		89E201DC13B92B8200AE24CB /* leaves */ = {
@@ -296,6 +315,8 @@
 				895D567113B9093600945CA4 /* InfoPlist.strings in Resources */,
 				895D567A13B9093600945CA4 /* MainWindow.xib in Resources */,
 				89E2023B13B935B000AE24CB /* form.pdf in Resources */,
+				89D4D34D13CE22B100CD1455 /* checked.png in Resources */,
+				89D4D34E13CE22B100CD1455 /* clear.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -342,6 +363,7 @@
 				89B197F913BA368700E50D5F /* PdfHelper.m in Sources */,
 				895A165C13CBABF6000F4CE5 /* PdfAnnotations.m in Sources */,
 				895A166013CBADFC000F4CE5 /* AnnotationData.m in Sources */,
+				89D4D34A13CE00D200CD1455 /* SimpleCheckbox.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
