@@ -21,4 +21,5 @@
 //taken from here http://ipdfdev.com/2011/06/21/links-navigation-in-a-pdf-document-on-iphone-and-ipad/
 -(CGPoint)convertPDFPointToViewPoint:(CGPoint)pdfPoint;
 -(CGRect)convertToDisplay:(CGRect)rawPosition;
+-(void) renderSignatureFields:(NSDictionary*) fields;
 @end

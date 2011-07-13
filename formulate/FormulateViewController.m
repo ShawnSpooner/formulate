@@ -12,6 +12,7 @@
 #import "PdfAnnotations.h"
 #import "AnnotationData.h"
 #import "SimpleCheckbox.h"
+#import "SigningView.h"
 
 @implementation FormulateViewController
 
@@ -64,6 +65,7 @@
     PdfAnnotations *fields = [pdfWrapper formElements:[pdfWrapper formFieldsonPage:pageNumber]];
     [self renderTextFields:[fields getTextFields]];
     [self renderCheckboxFields:[fields getCheckboxFields]];
+    [self renderSignatureFields:[fields getSignatureFields]];
 }
 
 -(void) renderTextFields:(NSDictionary*) fields{ 
@@ -78,6 +80,16 @@
         //pdfTextField.layer.cornerRadius=8.0f;
         
         [[self view] addSubview:pdfTextField];
+    }
+}
+
+-(void) renderSignatureFields:(NSDictionary*) fields{ 
+    for(id key in fields){
+        AnnotationData *data = [fields objectForKey:key];
+        CGRect adjustedPosition = [self convertToDisplay:data.position];
+        SigningView *signingArea = [[SigningView alloc] initWithFrame:adjustedPosition];
+        
+        [[self view] addSubview:signingArea];
     }
 }
 

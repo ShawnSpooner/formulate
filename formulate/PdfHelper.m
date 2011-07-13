@@ -65,17 +65,17 @@
                 if(strcmp(type, "Widget") == 0){
                     const char *fieldType;
                     if(!CGPDFDictionaryGetName(annotationDictionary, "FT", &fieldType)) {
-                        break;
+                        continue;
                     }
 
                     CGPDFStringRef fullName;
                     if(!CGPDFDictionaryGetString(annotationDictionary, "T", &fullName)) {
-                        break;
+                        continue;
                     }
                     
                     CGPDFArrayRef rectArray;
                     if(!CGPDFDictionaryGetArray(annotationDictionary, "Rect", &rectArray)) {
-                        break;
+                        continue;
                     }
  
                     CGPDFStringRef fieldName;
