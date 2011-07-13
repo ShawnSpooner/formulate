@@ -49,6 +49,7 @@
 }
 
 -(void)buildOutDrawingArea{
+    
     NSMutableArray*	recordedPaths;
     CGImageRef		brushImage;
     CGContextRef	brushContext;
@@ -158,6 +159,7 @@
     self.layer.shadowOffset = CGSizeMake(2.0, 2.0);
     self.layer.shadowOpacity = 0.25;
 }
+
 // If our view is resized, we'll be asked to layout subviews.
 // This is the perfect opportunity to also update the framebuffer so that it is
 // the same size as our display area.
@@ -201,6 +203,8 @@
 		NSLog(@"failed to make complete framebuffer object %x", glCheckFramebufferStatusOES(GL_FRAMEBUFFER_OES));
 		return NO;
 	}
+    
+    [self erase];
 	
 	return YES;
 }

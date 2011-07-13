@@ -83,6 +83,7 @@
     }
 }
 
+//#TODO actual drawing area is not aligned with what is displayed
 -(void) renderSignatureFields:(NSDictionary*) fields{ 
     for(id key in fields){
         AnnotationData *data = [fields objectForKey:key];
