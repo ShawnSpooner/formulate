@@ -129,7 +129,7 @@ typedef NSString* (^StringBlock)();
         CGRect adjustedPosition = [self convertToDisplay:data.position];
         SimpleCheckbox *pdfCheckbox = [self buildCheckboxAt:adjustedPosition];
 
-        StringBlock value= ^{return pdfCheckbox.checked ? @"True" : @"False";};
+        StringBlock value= ^{return pdfCheckbox.checked ? @"true" : @"false";};
         [pdfFormElements setObject:[value copy] forKey:key];
         [self renderControl:pdfCheckbox];
     }

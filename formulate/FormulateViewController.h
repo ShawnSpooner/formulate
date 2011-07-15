@@ -36,8 +36,8 @@
 -(CGPoint)convertPDFPointToViewPoint:(CGPoint)pdfPoint;
 
 /**
- Converts the 4 positions of the PDF rectangle to the {x,y}{w,h} format of the iPad view cooridinate system
- @param rawPosition the origin x,y and the terminus x,y of the view bounds of the control in the pdf cooridinate system
+ Converts the 4 positions of the PDF rectangle to the {x,y}{w,h} format of the iPad view coordinate system
+ @param rawPosition the origin x,y and the terminus x,y of the view bounds of the control in the pdf coordinate system
 */
 -(CGRect)convertToDisplay:(CGRect)rawPosition;
 

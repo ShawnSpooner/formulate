@@ -21,7 +21,8 @@
 
 -(SimpleCheckbox*)buildCheckboxAt:(CGRect)position{
     id mock = [OCMockObject mockForClass:[SimpleCheckbox class]];
-    [[[mock stub] andReturn:TRUE] checked];
+    BOOL value = YES;
+    [[[mock stub] andReturnValue:OCMOCK_VALUE(value)] checked];
     return mock;  
 }
 
