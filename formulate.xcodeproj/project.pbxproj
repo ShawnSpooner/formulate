@@ -35,6 +35,7 @@
 		89D4D38313CE3AB900CD1455 /* UIImage+RoundedCorner.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D4D38013CE3AB900CD1455 /* UIImage+RoundedCorner.m */; };
 		89D4D38513CE3D3400CD1455 /* Particle.png in Resources */ = {isa = PBXBuildFile; fileRef = 89D4D38413CE3D3400CD1455 /* Particle.png */; };
 		89D4D3EA13CFB04C00CD1455 /* FormulateViewContorller+MockFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D4D38713CF67D400CD1455 /* FormulateViewContorller+MockFactory.m */; };
+		89D4D41313D0B69700CD1455 /* Base64Encoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D4D41213D0B69700CD1455 /* Base64Encoder.m */; };
 		89E201E413B92B9B00AE24CB /* LeavesCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E201DF13B92B9B00AE24CB /* LeavesCache.m */; };
 		89E201E513B92B9B00AE24CB /* LeavesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E201E113B92B9B00AE24CB /* LeavesView.m */; };
 		89E201E613B92B9B00AE24CB /* LeavesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E201E313B92B9B00AE24CB /* LeavesViewController.m */; };
@@ -98,6 +99,8 @@
 		89D4D38613CF67D400CD1455 /* FormulateViewContorller+MockFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FormulateViewContorller+MockFactory.h"; sourceTree = "<group>"; };
 		89D4D38713CF67D400CD1455 /* FormulateViewContorller+MockFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FormulateViewContorller+MockFactory.m"; sourceTree = "<group>"; };
 		89D4D3BE13CFA05400CD1455 /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOCMock.a; sourceTree = "<group>"; };
+		89D4D41113D0B69700CD1455 /* Base64Encoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64Encoder.h; sourceTree = "<group>"; };
+		89D4D41213D0B69700CD1455 /* Base64Encoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Base64Encoder.m; sourceTree = "<group>"; };
 		89E201DE13B92B9B00AE24CB /* LeavesCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LeavesCache.h; path = leaves/Leaves/LeavesCache.h; sourceTree = "<group>"; };
 		89E201DF13B92B9B00AE24CB /* LeavesCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LeavesCache.m; path = leaves/Leaves/LeavesCache.m; sourceTree = "<group>"; };
 		89E201E013B92B9B00AE24CB /* LeavesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LeavesView.h; path = leaves/Leaves/LeavesView.h; sourceTree = "<group>"; };
@@ -188,6 +191,8 @@
 		895D566D13B9093600945CA4 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				89D4D41113D0B69700CD1455 /* Base64Encoder.h */,
+				89D4D41213D0B69700CD1455 /* Base64Encoder.m */,
 				89D4D34B13CE22B100CD1455 /* checked.png */,
 				89D4D34C13CE22B100CD1455 /* clear.png */,
 				89E2023A13B935B000AE24CB /* form.pdf */,
@@ -428,6 +433,7 @@
 				89D4D38113CE3AB900CD1455 /* UIImage+Alpha.m in Sources */,
 				89D4D38213CE3AB900CD1455 /* UIImage+Resize.m in Sources */,
 				89D4D38313CE3AB900CD1455 /* UIImage+RoundedCorner.m in Sources */,
+				89D4D41313D0B69700CD1455 /* Base64Encoder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -96,13 +96,28 @@ typedef NSString* (^StringBlock)();
     }
 }
 
+-(SimpleCheckbox*)buildCheckboxAt:(CGRect)position{
+    SimpleCheckbox *pdfCheckbox = [[SimpleCheckbox alloc] initWithFrame:position];
+    
+    CALayer * border = [pdfCheckbox layer];
+    [border setMasksToBounds:YES];
+    [border setBorderWidth:1.0];
+    [border setBorderColor:[[UIColor greenColor] CGColor]];  
+    return pdfCheckbox;
+}
+
+-(SigningView*)buildSignatureFieldAt:(CGRect)position{
+    return[[SigningView alloc] initWithFrame:position];  
+}
+
 //#TODO actual drawing area is not aligned with what is displayed
 -(void) renderSignatureFields:(NSDictionary*) fields{ 
     for(id key in fields){
         AnnotationData *data = [fields objectForKey:key];
         CGRect adjustedPosition = [self convertToDisplay:data.position];
-        SigningView *signingArea = [[SigningView alloc] initWithFrame:adjustedPosition];
-        
+        SigningView *signingArea = [self buildSignatureFieldAt:adjustedPosition];
+        StringBlock value= ^{return [signingArea capture] ? : @"";};
+        [pdfFormElements setObject:[value copy] forKey:key];
         [self renderControl:signingArea];
     }
 }
@@ -112,14 +127,8 @@ typedef NSString* (^StringBlock)();
     for(id key in fields){
         AnnotationData *data = [fields objectForKey:key];
         CGRect adjustedPosition = [self convertToDisplay:data.position];
-        
-        SimpleCheckbox *pdfCheckbox = [[SimpleCheckbox alloc] initWithFrame:adjustedPosition];
+        SimpleCheckbox *pdfCheckbox = [self buildCheckboxAt:adjustedPosition];
 
-        CALayer * border = [pdfCheckbox layer];
-        [border setMasksToBounds:YES];
-        [border setBorderWidth:1.0];
-        [border setBorderColor:[[UIColor greenColor] CGColor]];
-        
         StringBlock value= ^{return pdfCheckbox.checked ? @"True" : @"False";};
         [pdfFormElements setObject:[value copy] forKey:key];
         [self renderControl:pdfCheckbox];
@@ -182,6 +191,7 @@ typedef NSString* (^StringBlock)();
     
     return viewPoint;
 }
+//
 
 - (void) viewDidLoad {
 	[super viewDidLoad];

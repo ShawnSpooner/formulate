@@ -14,6 +14,8 @@
  
     FormulateViewController *controller; 
     NSMutableDictionary *textFields;
+    NSMutableDictionary *checkboxFields;
+    NSMutableDictionary *signatureFields;
 }
 
 @end

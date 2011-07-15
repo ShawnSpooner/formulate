@@ -12,7 +12,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import <OpenGLES/EAGLDrawable.h>
-
+#import "Base64Encoder.h"
 
 @interface SigningView (private)
 
@@ -418,4 +418,8 @@ void releaseData(void *info, const void *data, size_t dataSize) {
 	UIImageWriteToSavedPhotosAlbum(image, self, nil, nil);
 }
 
+-(NSString*)capture{
+	NSData *image = UIImagePNGRepresentation([self glToUIImage]);
+	return [Base64Encoder encode:image];
+}
 @end

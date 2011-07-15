@@ -20,14 +20,21 @@ typedef NSString* (^StringBlock)();
     controller = [[FormulateViewController alloc] init];
     
     textFields = [[NSMutableDictionary alloc] init];
+    signatureFields = [[NSMutableDictionary alloc] init];
+    checkboxFields = [[NSMutableDictionary alloc] init];
     AnnotationData *data = [[AnnotationData alloc] initWithPosition:CGRectMake(0, 0, 10, 10) andDisplay:@"Last"];
     [textFields setObject:data forKey:@"LAST"];
+    [checkboxFields setObject:data forKey:@"Check"];
+    [signatureFields setObject:data forKey:@"Signature"];
 }
 
 - (void)tearDown
 {
     // Tear-down code here.
     [controller release];
+    [textFields release];
+    [checkboxFields release];
+    [signatureFields release];
     [super tearDown];
 }
 
@@ -39,10 +46,21 @@ typedef NSString* (^StringBlock)();
     STAssertTrue([name() isEqualToString:@"Test"] , @"value of last name field should be Test", name());
 }
 
-
--(void)testSimpleLamdaTest
+-(void)testFormElementsShouldReturnTrueOnCheck
 {  
-    NSString* (^value)()= ^{return nil ? : @"value";};
-    STAssertTrue([value() isEqualToString:@"value"] , @"value of text field should be value", value());
+    [controller renderCheckboxFields:checkboxFields];
+    StringBlock name = [[controller getFormElements] objectForKey:@"Check"];
+    STAssertTrue([name() isEqualToString:@"true"] , @"value of check field should be true", name());
 }
+
+
+-(void)testFormElementsShouldReturnASignature
+{  
+    [controller renderSignatureFields:signatureFields];
+    StringBlock name = [[controller getFormElements] objectForKey:@"Signature"];
+    STAssertTrue([name() isEqualToString:@"Signature"] , @"value of last name field should be Signature", name());
+}
+
+
+
 @end

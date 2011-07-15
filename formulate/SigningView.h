@@ -43,5 +43,6 @@
 -(UIImage *) glToUIImage;
 -(void)styleThis;
 -(void)buildOutDrawingArea;
+-(NSString*)capture;
 
 @end
