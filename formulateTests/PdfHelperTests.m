@@ -30,11 +30,11 @@
 }
 
 
--(void)testAnnotsArrayShouldHave38Elements
+-(void)testAnnotsArrayShouldHave37Elements
 {  
     CGPDFArrayRef outputArray = [helper formFieldsonPage:1];
     int count = CGPDFArrayGetCount(outputArray);
-    STAssertEquals(38, count, @"the annots array should contain 38 fields", count);
+    STAssertEquals(37, count, @"the annots array should contain 37 fields", count);
 }
 
 -(void)testLoadShouldAllowAnnotationsToBeReturned
@@ -42,14 +42,14 @@
     CGPDFArrayRef outputArray = [PdfHelper annotations:pdf onPage:1];
     int count = CGPDFArrayGetCount(outputArray);
     //NSLog(@"array contains %@", outputArray);
-    STAssertEquals(38, count, @"the annots array should contain 38 fields", count); 
+    STAssertEquals(37, count, @"the annots array should contain 37 fields", count); 
 }
 
--(void)testRetrievingTheFormFieldsShouldReturn16TextFields
+-(void)testRetrievingTheFormFieldsShouldReturn17TextFields
 {
     PdfAnnotations* fields = [helper formElements:[helper formFieldsonPage:1]];
     int count = [[fields getTextFields] count];
-    STAssertEquals(16, count, @"the annots array should contain 16 text fields on page 1", count);  
+    STAssertEquals(17, count, @"the annots array should contain 17 text fields on page 1", count);  
 }
 
 -(void)testLastNameShouldHaveDisplayNameOfLast

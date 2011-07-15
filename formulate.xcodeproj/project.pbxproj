@@ -34,6 +34,7 @@
 		89D4D38213CE3AB900CD1455 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D4D37E13CE3AB900CD1455 /* UIImage+Resize.m */; };
 		89D4D38313CE3AB900CD1455 /* UIImage+RoundedCorner.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D4D38013CE3AB900CD1455 /* UIImage+RoundedCorner.m */; };
 		89D4D38513CE3D3400CD1455 /* Particle.png in Resources */ = {isa = PBXBuildFile; fileRef = 89D4D38413CE3D3400CD1455 /* Particle.png */; };
+		89D4D3EA13CFB04C00CD1455 /* FormulateViewContorller+MockFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 89D4D38713CF67D400CD1455 /* FormulateViewContorller+MockFactory.m */; };
 		89E201E413B92B9B00AE24CB /* LeavesCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E201DF13B92B9B00AE24CB /* LeavesCache.m */; };
 		89E201E513B92B9B00AE24CB /* LeavesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E201E113B92B9B00AE24CB /* LeavesView.m */; };
 		89E201E613B92B9B00AE24CB /* LeavesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E201E313B92B9B00AE24CB /* LeavesViewController.m */; };
@@ -94,6 +95,9 @@
 		89D4D37F13CE3AB900CD1455 /* UIImage+RoundedCorner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+RoundedCorner.h"; sourceTree = "<group>"; };
 		89D4D38013CE3AB900CD1455 /* UIImage+RoundedCorner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+RoundedCorner.m"; sourceTree = "<group>"; };
 		89D4D38413CE3D3400CD1455 /* Particle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Particle.png; path = formulate/Particle.png; sourceTree = "<group>"; };
+		89D4D38613CF67D400CD1455 /* FormulateViewContorller+MockFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FormulateViewContorller+MockFactory.h"; sourceTree = "<group>"; };
+		89D4D38713CF67D400CD1455 /* FormulateViewContorller+MockFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FormulateViewContorller+MockFactory.m"; sourceTree = "<group>"; };
+		89D4D3BE13CFA05400CD1455 /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOCMock.a; sourceTree = "<group>"; };
 		89E201DE13B92B9B00AE24CB /* LeavesCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LeavesCache.h; path = leaves/Leaves/LeavesCache.h; sourceTree = "<group>"; };
 		89E201DF13B92B9B00AE24CB /* LeavesCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LeavesCache.m; path = leaves/Leaves/LeavesCache.m; sourceTree = "<group>"; };
 		89E201E013B92B9B00AE24CB /* LeavesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LeavesView.h; path = leaves/Leaves/LeavesView.h; sourceTree = "<group>"; };
@@ -135,11 +139,10 @@
 		895D565713B9093600945CA4 = {
 			isa = PBXGroup;
 			children = (
+				89D4D3B513CFA05400CD1455 /* Libraries */,
 				89D4D38413CE3D3400CD1455 /* Particle.png */,
 				89D4D37A13CE3AB900CD1455 /* ImageBase */,
-				89D4D37813CE39ED00CD1455 /* OpenGLES.framework */,
 				89E201E913B92CDF00AE24CB /* Resources */,
-				89E201E713B92BE800AE24CB /* QuartzCore.framework */,
 				89E201DC13B92B8200AE24CB /* leaves */,
 				895D566C13B9093600945CA4 /* formulate */,
 				895D568C13B9093600945CA4 /* formulateTests */,
@@ -160,6 +163,8 @@
 		895D566513B9093600945CA4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				89D4D37813CE39ED00CD1455 /* OpenGLES.framework */,
+				89E201E713B92BE800AE24CB /* QuartzCore.framework */,
 				895D566613B9093600945CA4 /* UIKit.framework */,
 				895D566813B9093600945CA4 /* Foundation.framework */,
 				895D566A13B9093600945CA4 /* CoreGraphics.framework */,
@@ -170,12 +175,11 @@
 		895D566C13B9093600945CA4 /* formulate */ = {
 			isa = PBXGroup;
 			children = (
+				89D4D3C913CFA62900CD1455 /* Controllers */,
 				89D4D34613CE00B200CD1455 /* Controls */,
 				89B197F613BA366400E50D5F /* Models */,
 				895D567513B9093600945CA4 /* formulateAppDelegate.h */,
 				895D567613B9093600945CA4 /* formulateAppDelegate.m */,
-				895D567B13B9093600945CA4 /* FormulateViewController.h */,
-				895D567C13B9093600945CA4 /* FormulateViewController.m */,
 				895D566D13B9093600945CA4 /* Supporting Files */,
 			);
 			path = formulate;
@@ -206,6 +210,8 @@
 				895D568D13B9093600945CA4 /* Supporting Files */,
 				89B197FA13BA464300E50D5F /* PdfHelperTests.h */,
 				89B197FB13BA464300E50D5F /* PdfHelperTests.m */,
+				89D4D38613CF67D400CD1455 /* FormulateViewContorller+MockFactory.h */,
+				89D4D38713CF67D400CD1455 /* FormulateViewContorller+MockFactory.m */,
 			);
 			path = formulateTests;
 			sourceTree = "<group>";
@@ -258,6 +264,23 @@
 			path = formulate/ImageBase;
 			sourceTree = "<group>";
 		};
+		89D4D3B513CFA05400CD1455 /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				89D4D3BE13CFA05400CD1455 /* libOCMock.a */,
+			);
+			path = Libraries;
+			sourceTree = "<group>";
+		};
+		89D4D3C913CFA62900CD1455 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				895D567B13B9093600945CA4 /* FormulateViewController.h */,
+				895D567C13B9093600945CA4 /* FormulateViewController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
 		89E201DC13B92B8200AE24CB /* leaves */ = {
 			isa = PBXGroup;
 			children = (
@@ -302,9 +325,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 895D569C13B9093600945CA4 /* Build configuration list for PBXNativeTarget "formulateTests" */;
 			buildPhases = (
+				895D568313B9093600945CA4 /* Resources */,
 				895D568113B9093600945CA4 /* Sources */,
 				895D568213B9093600945CA4 /* Frameworks */,
-				895D568313B9093600945CA4 /* Resources */,
 				895D568413B9093600945CA4 /* Run Script */,
 			);
 			buildRules = (
@@ -414,6 +437,7 @@
 			files = (
 				895D569613B9093600945CA4 /* formulateTests.m in Sources */,
 				89B197FC13BA464300E50D5F /* PdfHelperTests.m in Sources */,
+				89D4D3EA13CFB04C00CD1455 /* FormulateViewContorller+MockFactory.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -523,13 +547,26 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/formulate.app/formulate";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
 				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "formulateTests/formulateTests-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/Libraries/Headers/**",
+					"Headers/**",
+				);
 				INFOPLIST_FILE = "formulateTests/formulateTests-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+					"\"$(PROJECT_DIR)/Libraries\"/**",
+					"\"$(SRCROOT)/Libraries/Headers/\"",
+				);
 				OTHER_LDFLAGS = (
+					"-force_load",
+					"$(PROJECT_DIR)/Libraries/libOCMock.a",
+					"-ObjC",
 					"-framework",
 					SenTestingKit,
 				);
@@ -545,15 +582,24 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/formulate.app/formulate";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
 				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "formulateTests/formulateTests-Prefix.pch";
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "formulateTests/formulateTests-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+					"\"$(PROJECT_DIR)/Libraries\"/**",
+					"\"$(SRCROOT)/Libraries/Headers/\"",
+				);
 				OTHER_LDFLAGS = (
-					"-framework",
 					SenTestingKit,
+					"-force_load",
+					"$(PROJECT_DIR)/Libraries/libOCMock.a",
+					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";

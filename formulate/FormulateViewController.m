@@ -16,21 +16,27 @@
 
 @implementation FormulateViewController
 
+typedef NSString* (^StringBlock)();
 
 - (id)init {
+    CFURLRef pdfURL = CFBundleCopyResourceURL(CFBundleGetMainBundle(), CFSTR("form.pdf"), NULL, NULL);
+    return [self initWithPdf:pdfURL];
+}
+
+- (id)initWithPdf:(CFURLRef)pdfURL{
     if ((self = [super init])) {
-		CFURLRef pdfURL = CFBundleCopyResourceURL(CFBundleGetMainBundle(), CFSTR("form.pdf"), NULL, NULL);
-		NSLog(@"init pdf url of %@", pdfURL);
+        NSLog(@"init pdf url of %@", pdfURL);
 		pdfWrapper = [[PdfHelper alloc] initWithPdf:pdfURL];
         pdf = pdfWrapper.pdf;
+        pdfFormElements = [[NSMutableDictionary alloc] init];
         CFRelease(pdfURL);
     }
     return self;
 }
 
 - (void)dealloc {
-    CFRelease(page);
 	[pdfWrapper release];
+    [pdfFormElements release];
     [super dealloc];
 }
 
@@ -68,18 +74,25 @@
     [self renderSignatureFields:[fields getSignatureFields]];
 }
 
+-(UITextField*)buildTextFieldAt:(CGRect)position{
+    
+    UITextField *pdfTextField = [[UITextField alloc] initWithFrame:position];
+    pdfTextField.borderStyle = UITextBorderStyleRoundedRect;
+    //pdfTextField.placeholder = data.displayName;
+    //pdfTextField.layer.borderColor=[[UIColor greenColor]CGColor];
+    //pdfTextField.layer.borderWidth= 1.0f;
+    //pdfTextField.layer.cornerRadius=8.0f;
+    return pdfTextField;
+}
+
 -(void) renderTextFields:(NSDictionary*) fields{ 
     for(id key in fields){
         AnnotationData *data = [fields objectForKey:key];
         CGRect adjustedPosition = [self convertToDisplay:data.position];
-        UITextField *pdfTextField = [[UITextField alloc] initWithFrame:adjustedPosition];
-        pdfTextField.borderStyle = UITextBorderStyleRoundedRect;
-        //pdfTextField.placeholder = data.displayName;
-        //pdfTextField.layer.borderColor=[[UIColor greenColor]CGColor];
-        //pdfTextField.layer.borderWidth= 1.0f;
-        //pdfTextField.layer.cornerRadius=8.0f;
-        
-        [[self view] addSubview:pdfTextField];
+        UITextField *pdfTextField = [self buildTextFieldAt: adjustedPosition];
+        StringBlock value = ^{return pdfTextField.text ? : @"";};
+        [pdfFormElements setObject:[value copy] forKey:key];
+        [self renderControl:pdfTextField];
     }
 }
 
@@ -90,7 +103,7 @@
         CGRect adjustedPosition = [self convertToDisplay:data.position];
         SigningView *signingArea = [[SigningView alloc] initWithFrame:adjustedPosition];
         
-        [[self view] addSubview:signingArea];
+        [self renderControl:signingArea];
     }
 }
 
@@ -106,8 +119,20 @@
         [border setMasksToBounds:YES];
         [border setBorderWidth:1.0];
         [border setBorderColor:[[UIColor greenColor] CGColor]];
-        [[self view] addSubview:pdfCheckbox];
+        
+        StringBlock value= ^{return pdfCheckbox.checked ? @"True" : @"False";};
+        [pdfFormElements setObject:[value copy] forKey:key];
+        [self renderControl:pdfCheckbox];
     }
+}
+
+-(void)renderControl:(id)control{
+    [[self view] addSubview:control];
+}
+
+//Get a dictionary of the form elements keyed by name with a block that returns the value entered by the user
+-(NSDictionary*)getFormElements{
+    return pdfFormElements;    
 }
 
 -(CGRect)convertToDisplay:(CGRect)rawPosition{
@@ -125,27 +150,30 @@
     
     int rotation = CGPDFPageGetRotationAngle(page);
     CGRect currentViewBounds = [[self view] frame];
-    
+
+    float width = cropBox.size.width != 0 ? cropBox.size.width : 1.0;
+    float height = cropBox.size.height != 0 ? cropBox.size.height : 1.0;
+
     switch (rotation) {
         case 90:
         case -270:
-            viewPoint.x = currentViewBounds.size.width * (pdfPoint.y - cropBox.origin.y) / cropBox.size.height;
-            viewPoint.y = currentViewBounds.size.height * (pdfPoint.x - cropBox.origin.x) / cropBox.size.width;
+            viewPoint.x = currentViewBounds.size.width * (pdfPoint.y - cropBox.origin.y) / height;
+            viewPoint.y = currentViewBounds.size.height * (pdfPoint.x - cropBox.origin.x) / width;
             break;
         case 180:
         case -180:
-            viewPoint.x = currentViewBounds.size.width * (cropBox.size.width - (pdfPoint.x - cropBox.origin.x)) / cropBox.size.width;
+            viewPoint.x = currentViewBounds.size.width * (cropBox.size.width - (pdfPoint.x - cropBox.origin.x)) / width;
             viewPoint.y = currentViewBounds.size.height * (pdfPoint.y - cropBox.origin.y) / cropBox.size.height;
             break;
         case -90:
         case 270:
-            viewPoint.x = currentViewBounds.size.width * (cropBox.size.height - (pdfPoint.y - cropBox.origin.y)) / cropBox.size.height;
-            viewPoint.y = currentViewBounds.size.height * (cropBox.size.width - (pdfPoint.x - cropBox.origin.x)) / cropBox.size.width;
+            viewPoint.x = currentViewBounds.size.width * (cropBox.size.height - (pdfPoint.y - cropBox.origin.y)) / height;
+            viewPoint.y = currentViewBounds.size.height * (cropBox.size.width - (pdfPoint.x - cropBox.origin.x)) / width;
             break;
         case 0:
         default:
-            viewPoint.x = currentViewBounds.size.width * (pdfPoint.x - cropBox.origin.x) / cropBox.size.width;
-            viewPoint.y = currentViewBounds.size.height * (cropBox.size.height - pdfPoint.y) / cropBox.size.height;
+            viewPoint.x = currentViewBounds.size.width * (pdfPoint.x - cropBox.origin.x) / width;
+            viewPoint.y = currentViewBounds.size.height * (cropBox.size.height - pdfPoint.y) / height;
             break;
     }
     

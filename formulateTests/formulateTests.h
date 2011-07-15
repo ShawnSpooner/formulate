@@ -7,11 +7,13 @@
 //
 
 #import <SenTestingKit/SenTestingKit.h>
-
+@class FormulateViewController;
 
 @interface formulateTests : SenTestCase {
 @private
-    
+ 
+    FormulateViewController *controller; 
+    NSMutableDictionary *textFields;
 }
 
 @end

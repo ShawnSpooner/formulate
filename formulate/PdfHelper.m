@@ -17,14 +17,15 @@
 {
     self = [super init];
     if (self) {
-        self.pdf = [PdfHelper load:pdfUrl];
+        pdf = [PdfHelper load:pdfUrl];
     }
     return self;
 }
 
 - (void)dealloc
 {
-    CFRelease(pdf);
+    //if(pdf)
+        //CFRelease(pdf);
     [super dealloc];
 }
 

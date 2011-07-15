@@ -37,11 +37,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "formulate/PdfHelper.m"
-         timestampString = "332281700.583615"
+         timestampString = "332356573.288229"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "98"
-         endingLineNumber = "98"
+         startingLineNumber = "99"
+         endingLineNumber = "99"
          landmarkName = "-formElements:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -51,11 +51,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "formulate/FormulateViewController.m"
-         timestampString = "332288723.85844"
+         timestampString = "332383387.425146"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "108"
-         endingLineNumber = "108"
+         startingLineNumber = "124"
+         endingLineNumber = "124"
          landmarkName = "-renderCheckboxFields:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -85,6 +85,34 @@
          startingLineNumber = "28"
          endingLineNumber = "28"
          landmarkName = "-clicked"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "formulate/FormulateViewController.m"
+         timestampString = "332383387.425146"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "156"
+         endingLineNumber = "156"
+         landmarkName = "-convertPDFPointToViewPoint:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "formulate/FormulateViewController.m"
+         timestampString = "332383387.425146"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "94"
+         endingLineNumber = "94"
+         landmarkName = "-renderTextFields:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
