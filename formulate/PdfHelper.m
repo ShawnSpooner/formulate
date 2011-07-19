@@ -68,7 +68,7 @@
                     if(!CGPDFDictionaryGetName(annotationDictionary, "FT", &fieldType)) {
                         continue;
                     }
-
+                    
                     CGPDFStringRef fullName;
                     if(!CGPDFDictionaryGetString(annotationDictionary, "T", &fullName)) {
                         continue;
@@ -78,12 +78,15 @@
                     if(!CGPDFDictionaryGetArray(annotationDictionary, "Rect", &rectArray)) {
                         continue;
                     }
- 
+                    
                     CGPDFStringRef fieldName;
-                    CGPDFDictionaryGetString(annotationDictionary, "TU", &fieldName);                           
+                    NSString* displayName = !CGPDFDictionaryGetString(annotationDictionary, "TU", &fieldName) ?
+                    @"Fill In Here" :
+                    (NSString *) CGPDFStringCopyTextString(fieldName);
+                    
                     
                     CGRect coordinates = [self retrieveCoordinates: rectArray];
-                    NSString* displayName = (NSString *) CGPDFStringCopyTextString(fieldName);
+                    
                     AnnotationData* data = [[AnnotationData alloc] initWithPosition:coordinates andDisplay:displayName];
                     NSString* key = (NSString *) CGPDFStringCopyTextString(fullName);
                     //#TODO break this out into other methods
@@ -100,7 +103,7 @@
                         [pdfAnnotations addSignatureEntry:key withValue:data];
                     }
                     else{
-                         NSLog(@"Unhandled type %s", fieldType);
+                        NSLog(@"Unhandled type %s", fieldType);
                     }
                 }
             }
@@ -108,6 +111,7 @@
     }
     return pdfAnnotations;
 }
+
 
 -(CGRect)retrieveCoordinates:(CGPDFArrayRef) coordinateArray
 {

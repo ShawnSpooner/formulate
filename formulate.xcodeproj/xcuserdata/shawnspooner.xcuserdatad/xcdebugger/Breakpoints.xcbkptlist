@@ -37,26 +37,12 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "formulate/PdfHelper.m"
-         timestampString = "332356573.288229"
+         timestampString = "332727343.854836"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "99"
-         endingLineNumber = "99"
+         startingLineNumber = "53"
+         endingLineNumber = "53"
          landmarkName = "-formElements:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "formulate/FormulateViewController.m"
-         timestampString = "332445645.772726"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "133"
-         endingLineNumber = "133"
-         landmarkName = "-renderCheckboxFields:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -93,12 +79,12 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "formulate/FormulateViewController.m"
-         timestampString = "332445645.772726"
+         timestampString = "332727343.854836"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "165"
-         endingLineNumber = "165"
-         landmarkName = "-convertPDFPointToViewPoint:"
+         startingLineNumber = "77"
+         endingLineNumber = "77"
+         landmarkName = "-renderPageAtIndex:inContext:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -107,12 +93,12 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "formulate/FormulateViewController.m"
-         timestampString = "332383387.425146"
+         timestampString = "332727343.854836"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "94"
-         endingLineNumber = "94"
-         landmarkName = "-renderTextFields:"
+         startingLineNumber = "72"
+         endingLineNumber = "72"
+         landmarkName = "-renderPageAtIndex:inContext:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

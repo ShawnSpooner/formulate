@@ -16,9 +16,11 @@
     PdfHelper* pdfWrapper;
     CGPDFPageRef page;
     NSMutableDictionary *pdfFormElements;
+    NSMutableArray *pdfControlHandles;
 }
 
 -(id)initWithPdf:(CFURLRef)pdfURL;
+-(void)loadPdf:(CFURLRef)pdfURL;
 
 /*
  Renders the provided data annotations as UiTextFields onto the current pdf page

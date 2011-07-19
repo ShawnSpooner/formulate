@@ -25,18 +25,27 @@ typedef NSString* (^StringBlock)();
 
 - (id)initWithPdf:(CFURLRef)pdfURL{
     if ((self = [super init])) {
-        NSLog(@"init pdf url of %@", pdfURL);
-		pdfWrapper = [[PdfHelper alloc] initWithPdf:pdfURL];
-        pdf = pdfWrapper.pdf;
-        pdfFormElements = [[NSMutableDictionary alloc] init];
-        CFRelease(pdfURL);
+        pdfControlHandles = [[NSMutableArray alloc] init];
+        [self loadPdf:pdfURL]; 
     }
     return self;
+}
+
+-(void)loadPdf:(CFURLRef)pdfURL{
+    NSLog(@"init pdf url of %@", pdfURL);
+    pdfWrapper = [[PdfHelper alloc] initWithPdf:pdfURL];
+    pdf = pdfWrapper.pdf;
+    pdfFormElements = [[NSMutableDictionary alloc] init];
+    for(UIView *control in pdfControlHandles){
+        [control removeFromSuperview];
+    }
+    [pdfControlHandles removeAllObjects];
 }
 
 - (void)dealloc {
 	[pdfWrapper release];
     [pdfFormElements release];
+    [pdfControlHandles release];
     [super dealloc];
 }
 
@@ -137,6 +146,7 @@ typedef NSString* (^StringBlock)();
 
 -(void)renderControl:(id)control{
     [[self view] addSubview:control];
+    [pdfControlHandles addObject:control];
 }
 
 //Get a dictionary of the form elements keyed by name with a block that returns the value entered by the user
@@ -147,8 +157,7 @@ typedef NSString* (^StringBlock)();
 -(CGRect)convertToDisplay:(CGRect)rawPosition{
     CGPoint newOrigin = [self convertPDFPointToViewPoint:CGPointMake(rawPosition.origin.x, rawPosition.origin.y)];
     CGPoint newTerminus = [self convertPDFPointToViewPoint:CGPointMake(rawPosition.size.width, rawPosition.size.height)];
-    int yOffset = 22;//#TODO figure out why we are not lined up properly
-    return CGRectMake(newOrigin.x, newOrigin.y - yOffset, newTerminus.x - newOrigin.x, newTerminus.y - newOrigin.y);   
+    return CGRectMake(newOrigin.x, newOrigin.y, newTerminus.x - newOrigin.x, newTerminus.y - newOrigin.y);   
 }
 
 //taken from http://ipdfdev.com/2011/06/21/links-navigation-in-a-pdf-document-on-iphone-and-ipad/
@@ -158,7 +167,7 @@ typedef NSString* (^StringBlock)();
     CGRect cropBox = CGPDFPageGetBoxRect(page, kCGPDFCropBox);
     
     int rotation = CGPDFPageGetRotationAngle(page);
-    CGRect currentViewBounds = [[self view] frame];
+    CGRect currentViewBounds = self.view.bounds;
 
     float width = cropBox.size.width != 0 ? cropBox.size.width : 1.0;
     float height = cropBox.size.height != 0 ? cropBox.size.height : 1.0;
