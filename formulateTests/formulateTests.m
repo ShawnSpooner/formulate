@@ -46,11 +46,11 @@ typedef NSString* (^StringBlock)();
     STAssertTrue([name() isEqualToString:@"Test"] , @"value of last name field should be Test", name());
 }
 
--(void)testFormElementsShouldReturnTrueOnCheck
+-(void)testFormElementsShouldReturnOnWhenChecked
 {  
     [controller renderCheckboxFields:checkboxFields];
     StringBlock name = [[controller getFormElements] objectForKey:@"Check"];
-    STAssertTrue([name() isEqualToString:@"true"] , @"value of check field should be true", name());
+    STAssertTrue([name() isEqualToString:@"On"] , @"value of check field should be true", name());
 }
 
 

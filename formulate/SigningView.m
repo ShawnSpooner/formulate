@@ -151,8 +151,8 @@
     self.layer.cornerRadius = 8;
     
     // apply the border
-    self.layer.borderWidth = 1.0;
-    self.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+    self.layer.borderWidth = 2.0;
+    self.layer.borderColor = [[UIColor greenColor] CGColor];
     
     // add the drop shadow
     self.layer.shadowColor = [[UIColor blackColor] CGColor];
@@ -323,6 +323,7 @@
 	//Convert touch point from UIView referential to OpenGL one (upside-down flip)
 	location = [touch locationInView:self];
 	location.y = bounds.size.height - location.y;
+
 }
 
 // Handles the continuation of a touch.

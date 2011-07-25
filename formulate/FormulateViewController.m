@@ -13,6 +13,7 @@
 #import "AnnotationData.h"
 #import "SimpleCheckbox.h"
 #import "SigningView.h"
+#import "SimplePicker.h"
 
 @implementation FormulateViewController
 
@@ -81,6 +82,7 @@ typedef NSString* (^StringBlock)();
     [self renderTextFields:[fields getTextFields]];
     [self renderCheckboxFields:[fields getCheckboxFields]];
     [self renderSignatureFields:[fields getSignatureFields]];
+    [self renderChoiceFields:[fields getChoiceFields]];
 }
 
 -(UITextField*)buildTextFieldAt:(CGRect)position{
@@ -110,16 +112,40 @@ typedef NSString* (^StringBlock)();
     
     CALayer * border = [pdfCheckbox layer];
     [border setMasksToBounds:YES];
-    [border setBorderWidth:1.0];
+    [border setBorderWidth:2.0];
     [border setBorderColor:[[UIColor greenColor] CGColor]];  
     return pdfCheckbox;
 }
 
--(SigningView*)buildSignatureFieldAt:(CGRect)position{
-    return[[SigningView alloc] initWithFrame:position];  
+-(void) renderChoiceFields:(NSDictionary*) fields{ 
+    
+    for(id key in fields){
+        AnnotationData *data = [fields objectForKey:key];
+        CGRect adjustedPosition = [self convertToDisplay:data.position];
+        SimplePicker *picker = [self buildDropDownAt:adjustedPosition andOptions:data.values];
+        picker.borderStyle = UITextBorderStyleRoundedRect;
+        StringBlock value= ^{return picker.text;};
+        [pdfFormElements setObject:[value copy] forKey:key];
+        [self renderControl:picker];
+    }
 }
 
-//#TODO actual drawing area is not aligned with what is displayed
+-(SimplePicker*)buildDropDownAt:(CGRect)position andOptions:(NSArray*) options{
+    position.origin.y = position.size.height > 0 ? : position.origin.y + position.size.height;
+    position.size.height = position.size.height > 0 ? : -1 * position.size.height;
+    SimplePicker *view = [[SimplePicker alloc] initWithFrame:position andData:options];
+    return view;
+}
+
+-(SigningView*)buildSignatureFieldAt:(CGRect)position{
+    //the sample signature fields have a negative height associated with them, convert it to a postive
+    //and adjust the origin to account for the shift.
+    position.origin.y = position.size.height > 0 ? : position.origin.y + position.size.height;
+    position.size.height = position.size.height > 0 ? : -1 * position.size.height;
+    SigningView *view = [[SigningView alloc] initWithFrame:position];
+    return view;
+}
+
 -(void) renderSignatureFields:(NSDictionary*) fields{ 
     for(id key in fields){
         AnnotationData *data = [fields objectForKey:key];
@@ -138,7 +164,7 @@ typedef NSString* (^StringBlock)();
         CGRect adjustedPosition = [self convertToDisplay:data.position];
         SimpleCheckbox *pdfCheckbox = [self buildCheckboxAt:adjustedPosition];
 
-        StringBlock value= ^{return pdfCheckbox.checked ? @"true" : @"false";};
+        StringBlock value= ^{return pdfCheckbox.checked ? @"On" : @"Off";};
         [pdfFormElements setObject:[value copy] forKey:key];
         [self renderControl:pdfCheckbox];
     }

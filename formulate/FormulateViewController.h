@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "LeavesViewController.h"
 
-@class PdfHelper, SimpleCheckbox, SigningView;
+@class PdfHelper, SimpleCheckbox, SigningView, SimplePicker;
 
 @interface FormulateViewController : LeavesViewController {
     CGPDFDocumentRef pdf;
@@ -58,8 +58,11 @@
 */
 -(void)renderControl:(id)control;
 
+-(void) renderChoiceFields:(NSDictionary*) fields;
+
 //Factory methods
 -(UITextField*)buildTextFieldAt:(CGRect)position;
 -(SimpleCheckbox*)buildCheckboxAt:(CGRect)position;
 -(SigningView*)buildSignatureFieldAt:(CGRect)position;
+-(SimplePicker*)buildDropDownAt:(CGRect)position andOptions:(NSArray*) options;
 @end

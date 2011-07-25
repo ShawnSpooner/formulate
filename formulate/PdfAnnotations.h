@@ -15,12 +15,16 @@
     NSMutableDictionary *textFields;
     NSMutableDictionary *signatureFields;
     NSMutableDictionary *checkboxFields;
+    NSMutableDictionary *choiceFields;
 }
 
 -(NSMutableDictionary*) getTextFields;
 -(NSMutableDictionary*) getSignatureFields;
 -(NSMutableDictionary*) getCheckboxFields;
+-(NSMutableDictionary*) getChoiceFields;
+
 -(void) addTextEntry:(NSString*)key withValue:(AnnotationData*)value;
 -(void) addSignatureEntry:(NSString*)key withValue:(AnnotationData*)value;
 -(void) addCheckboxEntry:(NSString*)key withValue:(AnnotationData*)value;
+-(void) addChoiceEntry:(NSString*)key withValue:(AnnotationData*)value;
 @end

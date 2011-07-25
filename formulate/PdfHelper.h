@@ -24,4 +24,5 @@
 +(CGPDFArrayRef)annotations:(CGPDFDocumentRef)pdf onPage:(int)page;
 -(PdfAnnotations*) formElements:(CGPDFArrayRef) annotations;
 -(CGRect)retrieveCoordinates:(CGPDFArrayRef)coordinateArray;
+-(NSArray*)toArray:(CGPDFArrayRef)source;
 @end

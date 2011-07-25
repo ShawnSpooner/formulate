@@ -18,6 +18,7 @@
         textFields = [[NSMutableDictionary alloc] init];
         signatureFields = [[NSMutableDictionary alloc] init];
         checkboxFields = [[NSMutableDictionary alloc] init];
+        choiceFields = [[NSMutableDictionary alloc] init];
     }
     
     return self;
@@ -26,9 +27,10 @@
 - (void)dealloc
 {
     [super dealloc];
-    [textFields dealloc];
-    [signatureFields dealloc];
-    [checkboxFields dealloc];
+    [textFields release];
+    [signatureFields release];
+    [checkboxFields release];
+    [choiceFields release];
 }
 
 -(NSMutableDictionary*) getTextFields{
@@ -44,6 +46,10 @@
     return checkboxFields;
 }
 
+-(NSMutableDictionary*) getChoiceFields{
+    return choiceFields;
+}
+
 -(void) addTextEntry:(NSString*)key withValue:(AnnotationData*)value{
     [textFields setObject:value forKey:key];
 }
@@ -55,5 +61,10 @@
 -(void) addCheckboxEntry:(NSString*)key withValue:(AnnotationData*)value{
     [checkboxFields setObject:value forKey:key];
 }
+
+-(void) addChoiceEntry:(NSString*)key withValue:(AnnotationData*)value{
+    [choiceFields setObject:value forKey:key];
+}
+
 
 @end

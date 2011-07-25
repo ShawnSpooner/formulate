@@ -11,7 +11,7 @@
 
 
 @implementation AnnotationData
-@synthesize position, values, displayName;
+@synthesize position, values, toolTip;
 
 - (id)init
 {
@@ -28,7 +28,7 @@
     self = [super init];
     if (self) {
         self.position = coordinates;
-        self.displayName = name;
+        self.toolTip = name;
     }
     return self;
 }

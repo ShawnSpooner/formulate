@@ -30,11 +30,11 @@
 }
 
 
--(void)testAnnotsArrayShouldHave37Elements
+-(void)testAnnotsArrayShouldHave38Elements
 {  
     CGPDFArrayRef outputArray = [helper formFieldsonPage:1];
     int count = CGPDFArrayGetCount(outputArray);
-    STAssertEquals(37, count, @"the annots array should contain 37 fields", count);
+    STAssertEquals(38, count, @"the annots array should contain 38 fields", count);
 }
 
 -(void)testLoadShouldAllowAnnotationsToBeReturned
@@ -42,7 +42,7 @@
     CGPDFArrayRef outputArray = [PdfHelper annotations:pdf onPage:1];
     int count = CGPDFArrayGetCount(outputArray);
     //NSLog(@"array contains %@", outputArray);
-    STAssertEquals(37, count, @"the annots array should contain 37 fields", count); 
+    STAssertEquals(38, count, @"the annots array should contain 38 fields", count); 
 }
 
 -(void)testRetrievingTheFormFieldsShouldReturn17TextFields
@@ -56,7 +56,7 @@
 {
     PdfAnnotations* fields = [helper formElements:[helper formFieldsonPage:1]];
     AnnotationData* data = [[fields getTextFields] objectForKey:@"Name_Last"];
-    STAssertTrue([data.displayName isEqualToString:@"LAST"] , @"last name text field should have a display name of LAST", data.displayName);
+    STAssertTrue([data.toolTip isEqualToString:@"LAST"] , @"last name text field should have a display name of LAST", data.toolTip);
 }
 
 -(void)testLastNameShouldHaveTheCorrectDisplayCoordinates                                                                                                                                                                                                                                                                     
@@ -85,6 +85,21 @@
 {
     PdfAnnotations* fields = [helper formElements:[helper formFieldsonPage:1]];
     AnnotationData* data = [[fields getSignatureFields] objectForKey:@"EMPLOYEE SIGNATURE"];
-    STAssertTrue([data.displayName isEqualToString:@"EMPLOYEE SIGNATURE"] , @"Employee Signature Should Have A Name Of Employee Signature", data.displayName);
+    STAssertTrue([data.toolTip isEqualToString:@"EMPLOYEE SIGNATURE"] , @"Employee Signature Should Have A Name Of Employee Signature", data.toolTip);
+}
+
+-(void)testRetrievingTheFormFieldsShouldReturn1ChoiceFields
+{
+    PdfAnnotations* fields = [helper formElements:[helper formFieldsonPage:1]];
+    int count = [[fields getChoiceFields] count];
+    STAssertEquals(1, count, @"the annots array should contain 1 choice fields on page 1", count);  
+}
+
+-(void)testChoiceFieldShouldHave4Options
+{
+    PdfAnnotations* fields = [helper formElements:[helper formFieldsonPage:1]];
+    AnnotationData* data = [[fields getChoiceFields] objectForKey:@"Position"];
+    int count = data.values.count;
+    STAssertEquals(4, count, @"the values array should contain four optins for the select list", count); 
 }
 @end

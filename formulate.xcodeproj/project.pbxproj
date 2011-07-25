@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8954367C13D9F204007A1F01 /* SimplePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8954367B13D9F203007A1F01 /* SimplePicker.m */; };
 		895A165C13CBABF6000F4CE5 /* PdfAnnotations.m in Sources */ = {isa = PBXBuildFile; fileRef = 895A165B13CBABF6000F4CE5 /* PdfAnnotations.m */; };
 		895A166013CBADFC000F4CE5 /* AnnotationData.m in Sources */ = {isa = PBXBuildFile; fileRef = 895A165F13CBADFC000F4CE5 /* AnnotationData.m */; };
 		895D566713B9093600945CA4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 895D566613B9093600945CA4 /* UIKit.framework */; };
@@ -42,6 +43,7 @@
 		89E201E813B92BE800AE24CB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89E201E713B92BE800AE24CB /* QuartzCore.framework */; };
 		89E201EE13B930D500AE24CB /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E201ED13B930D500AE24CB /* Utilities.m */; };
 		89E2023B13B935B000AE24CB /* form.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 89E2023A13B935B000AE24CB /* form.pdf */; };
+		89E50DBE13DDDA4B00381E78 /* ActionSheetPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E50DBD13DDDA4B00381E78 /* ActionSheetPicker.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +57,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8954367A13D9F203007A1F01 /* SimplePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimplePicker.h; sourceTree = "<group>"; };
+		8954367B13D9F203007A1F01 /* SimplePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimplePicker.m; sourceTree = "<group>"; };
 		895A165A13CBABF6000F4CE5 /* PdfAnnotations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PdfAnnotations.h; sourceTree = "<group>"; };
 		895A165B13CBABF6000F4CE5 /* PdfAnnotations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PdfAnnotations.m; sourceTree = "<group>"; };
 		895A165E13CBADFC000F4CE5 /* AnnotationData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnnotationData.h; sourceTree = "<group>"; };
@@ -111,6 +115,8 @@
 		89E201EC13B930D500AE24CB /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Utilities.h; path = "leaves/Other Sources/Utilities.h"; sourceTree = SOURCE_ROOT; };
 		89E201ED13B930D500AE24CB /* Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Utilities.m; path = "leaves/Other Sources/Utilities.m"; sourceTree = SOURCE_ROOT; };
 		89E2023A13B935B000AE24CB /* form.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = form.pdf; sourceTree = "<group>"; };
+		89E50DBC13DDDA4B00381E78 /* ActionSheetPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActionSheetPicker.h; path = ../../ActionSheetPicker/ActionSheetPicker.h; sourceTree = "<group>"; };
+		89E50DBD13DDDA4B00381E78 /* ActionSheetPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActionSheetPicker.m; path = ../../ActionSheetPicker/ActionSheetPicker.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -247,10 +253,14 @@
 		89D4D34613CE00B200CD1455 /* Controls */ = {
 			isa = PBXGroup;
 			children = (
+				89E50DBC13DDDA4B00381E78 /* ActionSheetPicker.h */,
+				89E50DBD13DDDA4B00381E78 /* ActionSheetPicker.m */,
 				89D4D34F13CE393900CD1455 /* SigningView.h */,
 				89D4D35013CE393900CD1455 /* SigningView.m */,
 				89D4D34813CE00D200CD1455 /* SimpleCheckbox.h */,
 				89D4D34913CE00D200CD1455 /* SimpleCheckbox.m */,
+				8954367A13D9F203007A1F01 /* SimplePicker.h */,
+				8954367B13D9F203007A1F01 /* SimplePicker.m */,
 			);
 			name = Controls;
 			sourceTree = "<group>";
@@ -434,6 +444,8 @@
 				89D4D38213CE3AB900CD1455 /* UIImage+Resize.m in Sources */,
 				89D4D38313CE3AB900CD1455 /* UIImage+RoundedCorner.m in Sources */,
 				89D4D41313D0B69700CD1455 /* Base64Encoder.m in Sources */,
+				8954367C13D9F204007A1F01 /* SimplePicker.m in Sources */,
+				89E50DBE13DDDA4B00381E78 /* ActionSheetPicker.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

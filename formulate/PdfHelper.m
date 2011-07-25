@@ -102,6 +102,14 @@
                     else if(strcmp(fieldType, "Sig") == 0){
                         [pdfAnnotations addSignatureEntry:key withValue:data];
                     }
+                    else if(strcmp(fieldType, "Ch") == 0){
+                        CGPDFArrayRef options;
+                        if(!CGPDFDictionaryGetArray(annotationDictionary, "Opt", &options)) {
+                            continue;
+                        }
+                        data.values = [self toArray:options];
+                        [pdfAnnotations addChoiceEntry:key withValue:data];
+                    }
                     else{
                         NSLog(@"Unhandled type %s", fieldType);
                     }
@@ -112,6 +120,24 @@
     return pdfAnnotations;
 }
 
+-(NSArray*)toArray:(CGPDFArrayRef)source{
+    NSMutableArray *newArray = [[NSMutableArray alloc]init];
+    int arrayCount = CGPDFArrayGetCount(source);
+    for( int k = 0; k < arrayCount; ++k ) {
+        CGPDFObjectRef elementObject;
+        if(!CGPDFArrayGetObject(source, k, &elementObject)) {
+            break;
+        }
+        
+        CGPDFStringRef element;
+        if(!CGPDFObjectGetValue(elementObject, kCGPDFObjectTypeString, &element)) {
+            break;
+        }
+        
+        [newArray addObject:(NSString *) CGPDFStringCopyTextString(element)];
+    }
+    return newArray;
+}
 
 -(CGRect)retrieveCoordinates:(CGPDFArrayRef) coordinateArray
 {
