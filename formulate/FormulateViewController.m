@@ -26,7 +26,6 @@ typedef NSString* (^StringBlock)();
 
 - (id)initWithPdf:(CFURLRef)pdfURL{
     if ((self = [super init])) {
-        pdfControlHandles = [[NSMutableArray alloc] init];
         [self loadPdf:pdfURL]; 
     }
     return self;
@@ -37,6 +36,7 @@ typedef NSString* (^StringBlock)();
     pdfWrapper = [[PdfHelper alloc] initWithPdf:pdfURL];
     pdf = pdfWrapper.pdf;
     pdfFormElements = [[NSMutableDictionary alloc] init];
+    pdfControlHandles = [[NSMutableArray alloc] init];
     for(UIView *control in pdfControlHandles){
         [control removeFromSuperview];
     }
