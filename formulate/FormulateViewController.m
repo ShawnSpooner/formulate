@@ -27,6 +27,10 @@ typedef NSString* (^StringBlock)();
 - (id)initWithPdf:(CFURLRef)pdfURL{
     if ((self = [super init])) {
         [self loadPdf:pdfURL]; 
+        scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+        scrollView.delegate = self;
+        [self.view addSubview:scrollView];
+        [scrollView addSubview:leavesView];
     }
     return self;
 }
@@ -37,10 +41,14 @@ typedef NSString* (^StringBlock)();
     pdf = pdfWrapper.pdf;
     pdfFormElements = [[NSMutableDictionary alloc] init];
     pdfControlHandles = [[NSMutableArray alloc] init];
+    [self cleanFormControls];
+    [pdfControlHandles removeAllObjects];
+}
+
+-(void)cleanFormControls{
     for(UIView *control in pdfControlHandles){
         [control removeFromSuperview];
-    }
-    [pdfControlHandles removeAllObjects];
+    } 
 }
 
 - (void)dealloc {
@@ -89,6 +97,7 @@ typedef NSString* (^StringBlock)();
     
     UITextField *pdfTextField = [[UITextField alloc] initWithFrame:position];
     pdfTextField.borderStyle = UITextBorderStyleRoundedRect;
+    pdfTextField.delegate = self;
     //pdfTextField.placeholder = data.displayName;
     //pdfTextField.layer.borderColor=[[UIColor greenColor]CGColor];
     //pdfTextField.layer.borderWidth= 1.0f;
@@ -171,7 +180,7 @@ typedef NSString* (^StringBlock)();
 }
 
 -(void)renderControl:(id)control{
-    [[self view] addSubview:control];
+    [scrollView addSubview:control];
     [pdfControlHandles addObject:control];
 }
 
@@ -241,6 +250,10 @@ typedef NSString* (^StringBlock)();
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                          selector:@selector (keyboardShown:)
+                                          name: UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardHidden) name:UIKeyboardWillHideNotification object:nil];
     [super viewDidAppear:animated];
 }
 
@@ -254,6 +267,28 @@ typedef NSString* (^StringBlock)();
 	[super viewDidDisappear:animated];
 }
 
+-(void)textFieldDidBeginEditing:(UITextField *)textField {
+    shouldScroll = textField.frame.origin.y > 740;//change this to be less hacky
+}
+
+-(void)keyboardShown:(NSNotification*) notif{
+    if (keyboardIsShown) {
+        return;
+    }
+    NSDictionary* userInfo = [notif userInfo];
+    
+    NSValue* boundsValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
+    CGSize keyboardSize = [boundsValue CGRectValue].size;
+    if(shouldScroll){
+        [scrollView setContentOffset:CGPointMake(0, keyboardSize.height) animated:YES];
+    }
+    keyboardIsShown = YES;
+}
+
+-(void)keyboardHidden{
+    [scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
+    keyboardIsShown = NO;
+}
 /*
  // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -261,7 +296,6 @@ typedef NSString* (^StringBlock)();
 	return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
  */
-
 
 
 - (void)didReceiveMemoryWarning

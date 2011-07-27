@@ -11,12 +11,15 @@
 
 @class PdfHelper, SimpleCheckbox, SigningView, SimplePicker;
 
-@interface FormulateViewController : LeavesViewController {
+@interface FormulateViewController : LeavesViewController<UIScrollViewDelegate, UITextFieldDelegate> {
     CGPDFDocumentRef pdf;
     PdfHelper* pdfWrapper;
     CGPDFPageRef page;
     NSMutableDictionary *pdfFormElements;
     NSMutableArray *pdfControlHandles;
+    UIScrollView *scrollView;
+    BOOL shouldScroll;
+    BOOL keyboardIsShown;
 }
 
 -(id)initWithPdf:(CFURLRef)pdfURL;
@@ -59,7 +62,9 @@
 -(void)renderControl:(id)control;
 
 -(void) renderChoiceFields:(NSDictionary*) fields;
-
+-(void)cleanFormControls;
+//keyboard notifications
+-(void)keyboardShown:(NSNotification*) notif;
 //Factory methods
 -(UITextField*)buildTextFieldAt:(CGRect)position;
 -(SimpleCheckbox*)buildCheckboxAt:(CGRect)position;
