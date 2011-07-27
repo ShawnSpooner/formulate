@@ -102,7 +102,7 @@ typedef NSString* (^StringBlock)();
     //pdfTextField.layer.borderColor=[[UIColor greenColor]CGColor];
     //pdfTextField.layer.borderWidth= 1.0f;
     //pdfTextField.layer.cornerRadius=8.0f;
-    return pdfTextField;
+    return [pdfTextField autorelease];
 }
 
 -(void) renderTextFields:(NSDictionary*) fields{ 
@@ -111,7 +111,7 @@ typedef NSString* (^StringBlock)();
         CGRect adjustedPosition = [self convertToDisplay:data.position];
         UITextField *pdfTextField = [self buildTextFieldAt: adjustedPosition];
         StringBlock value = ^{return pdfTextField.text ? : @"";};
-        [pdfFormElements setObject:[value copy] forKey:key];
+        [pdfFormElements setObject:[[value copy] autorelease] forKey:key];
         [self renderControl:pdfTextField];
     }
 }
@@ -123,7 +123,7 @@ typedef NSString* (^StringBlock)();
     [border setMasksToBounds:YES];
     [border setBorderWidth:2.0];
     [border setBorderColor:[[UIColor greenColor] CGColor]];  
-    return pdfCheckbox;
+    return [pdfCheckbox autorelease];
 }
 
 -(void) renderChoiceFields:(NSDictionary*) fields{ 
@@ -134,7 +134,7 @@ typedef NSString* (^StringBlock)();
         SimplePicker *picker = [self buildDropDownAt:adjustedPosition andOptions:data.values];
         picker.borderStyle = UITextBorderStyleRoundedRect;
         StringBlock value= ^{return picker.text;};
-        [pdfFormElements setObject:[value copy] forKey:key];
+        [pdfFormElements setObject:[[value copy] autorelease] forKey:key];
         [self renderControl:picker];
     }
 }
@@ -143,7 +143,7 @@ typedef NSString* (^StringBlock)();
     position.origin.y = position.size.height > 0 ? : position.origin.y + position.size.height;
     position.size.height = position.size.height > 0 ? : -1 * position.size.height;
     SimplePicker *view = [[SimplePicker alloc] initWithFrame:position andData:options];
-    return view;
+    return [view autorelease];
 }
 
 -(SigningView*)buildSignatureFieldAt:(CGRect)position{
@@ -152,7 +152,7 @@ typedef NSString* (^StringBlock)();
     position.origin.y = position.size.height > 0 ? : position.origin.y + position.size.height;
     position.size.height = position.size.height > 0 ? : -1 * position.size.height;
     SigningView *view = [[SigningView alloc] initWithFrame:position];
-    return view;
+    return [view autorelease];
 }
 
 -(void) renderSignatureFields:(NSDictionary*) fields{ 
@@ -161,7 +161,7 @@ typedef NSString* (^StringBlock)();
         CGRect adjustedPosition = [self convertToDisplay:data.position];
         SigningView *signingArea = [self buildSignatureFieldAt:adjustedPosition];
         StringBlock value= ^{return [signingArea capture] ? : @"";};
-        [pdfFormElements setObject:[value copy] forKey:key];
+        [pdfFormElements setObject:[[value copy] autorelease] forKey:key];
         [self renderControl:signingArea];
     }
 }
@@ -174,7 +174,7 @@ typedef NSString* (^StringBlock)();
         SimpleCheckbox *pdfCheckbox = [self buildCheckboxAt:adjustedPosition];
 
         StringBlock value= ^{return pdfCheckbox.checked ? @"On" : @"Off";};
-        [pdfFormElements setObject:[value copy] forKey:key];
+        [pdfFormElements setObject:[[value copy] autorelease] forKey:key];
         [self renderControl:pdfCheckbox];
     }
 }
@@ -253,7 +253,10 @@ typedef NSString* (^StringBlock)();
     [[NSNotificationCenter defaultCenter] addObserver:self
                                           selector:@selector (keyboardShown:)
                                           name: UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardHidden) name:UIKeyboardWillHideNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                          selector:@selector(keyboardHidden) 
+                                          name:UIKeyboardWillHideNotification object:nil];
     [super viewDidAppear:animated];
 }
 

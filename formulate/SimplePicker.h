@@ -12,7 +12,7 @@
 
 @private
     NSArray *data;
-   	NSInteger _selectedIndex;
+   	NSInteger selectedIndex;
 }
 
 -(id)initWithFrame:(CGRect)frame andData:(NSArray*)options;

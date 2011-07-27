@@ -109,10 +109,14 @@
                         }
                         data.values = [self toArray:options];
                         [pdfAnnotations addChoiceEntry:key withValue:data];
+                        
                     }
                     else{
                         NSLog(@"Unhandled type %s", fieldType);
                     }
+                    //[key release];
+                    //[displayName release];
+                    //[data release];
                 }
             }
         }  
@@ -136,7 +140,7 @@
         
         [newArray addObject:(NSString *) CGPDFStringCopyTextString(element)];
     }
-    return newArray;
+    return [newArray autorelease];
 }
 
 -(CGRect)retrieveCoordinates:(CGPDFArrayRef) coordinateArray
