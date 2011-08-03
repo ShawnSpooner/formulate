@@ -11,7 +11,7 @@
 
 
 @implementation AnnotationData
-@synthesize position, values, toolTip;
+@synthesize position, options, toolTip, value;
 
 - (id)init
 {
@@ -23,12 +23,13 @@
     return self;
 }
 
-- (id)initWithPosition:(CGRect)coordinates andDisplay:(NSString*)name
+- (id)initWithPosition:(CGRect)coordinates andValue:printValue andDisplay:(NSString*)name
 {
     self = [super init];
     if (self) {
         self.position = coordinates;
         self.toolTip = name;
+        self.value = printValue;
     }
     return self;
 }

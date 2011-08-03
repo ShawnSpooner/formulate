@@ -110,6 +110,7 @@ typedef NSString* (^StringBlock)();
         AnnotationData *data = [fields objectForKey:key];
         CGRect adjustedPosition = [self convertToDisplay:data.position];
         UITextField *pdfTextField = [self buildTextFieldAt: adjustedPosition];
+        pdfTextField.text = data.value;
         StringBlock value = ^{return pdfTextField.text ? : @"";};
         [pdfFormElements setObject:[[value copy] autorelease] forKey:key];
         [self renderControl:pdfTextField];
@@ -131,7 +132,7 @@ typedef NSString* (^StringBlock)();
     for(id key in fields){
         AnnotationData *data = [fields objectForKey:key];
         CGRect adjustedPosition = [self convertToDisplay:data.position];
-        SimplePicker *picker = [self buildDropDownAt:adjustedPosition andOptions:data.values];
+        SimplePicker *picker = [self buildDropDownAt:adjustedPosition andOptions:data.options];
         picker.borderStyle = UITextBorderStyleRoundedRect;
         StringBlock value= ^{return picker.text;};
         [pdfFormElements setObject:[[value copy] autorelease] forKey:key];
@@ -250,14 +251,15 @@ typedef NSString* (^StringBlock)();
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                          selector:@selector (keyboardShown:)
-                                          name: UIKeyboardWillShowNotification object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self 
-                                          selector:@selector(keyboardHidden) 
-                                          name:UIKeyboardWillHideNotification object:nil];
+    [self attachKeyboardHandlers];
     [super viewDidAppear:animated];
+}
+
+-(void) attachKeyboardHandlers{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector (keyboardShown:)
+                                                 name: UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardHidden) name:UIKeyboardWillHideNotification object:nil];   
 }
 
 - (void)viewWillDisappear:(BOOL)animated

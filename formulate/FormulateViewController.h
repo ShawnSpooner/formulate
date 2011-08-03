@@ -24,6 +24,7 @@
 
 -(id)initWithPdf:(CFURLRef)pdfURL;
 -(void)loadPdf:(CFURLRef)pdfURL;
+-(void) attachKeyboardHandlers;
 
 /*
  Renders the provided data annotations as UiTextFields onto the current pdf page
@@ -61,8 +62,16 @@
 */
 -(void)renderControl:(id)control;
 
+/**
+ Renders the choice field as a action sheet picker control, with the options from the pdf
+ */
 -(void) renderChoiceFields:(NSDictionary*) fields;
+
+/**
+ Removes all the elements from the form control collection
+ */
 -(void)cleanFormControls;
+
 //keyboard notifications
 -(void)keyboardShown:(NSNotification*) notif;
 //Factory methods

@@ -14,10 +14,11 @@
     
 }
 
-- (id)initWithPosition:(CGRect)position andDisplay:(NSString*)displayName;
+- (id)initWithPosition:(CGRect)position andValue:(NSString*)value andDisplay:(NSString*)displayName;
 
 @property CGRect position;
 @property (nonatomic, retain) NSString* toolTip;
-@property (nonatomic, retain) NSArray *values;
+@property (nonatomic, retain) NSString* value;
+@property (nonatomic, retain) NSArray *options;
 
 @end

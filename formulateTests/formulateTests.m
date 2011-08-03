@@ -22,7 +22,7 @@ typedef NSString* (^StringBlock)();
     textFields = [[NSMutableDictionary alloc] init];
     signatureFields = [[NSMutableDictionary alloc] init];
     checkboxFields = [[NSMutableDictionary alloc] init];
-    AnnotationData *data = [[AnnotationData alloc] initWithPosition:CGRectMake(0, 0, 10, 10) andDisplay:@"Last"];
+    AnnotationData *data = [[AnnotationData alloc] initWithPosition:CGRectMake(0, 0, 10, 10) andValue:@"Slamchest" andDisplay:@"Last"];
     [textFields setObject:data forKey:@"LAST"];
     [checkboxFields setObject:data forKey:@"Check"];
     [signatureFields setObject:data forKey:@"Signature"];

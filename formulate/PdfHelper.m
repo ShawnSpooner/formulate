@@ -51,6 +51,12 @@
     return [PdfHelper annotations:pdf onPage:1];
 }
 
+-(NSString*)getOptionalStringField:(char*)key from:(CGPDFDictionaryRef)annotationDictionary{
+    CGPDFStringRef fieldName;
+    NSString* value = (!CGPDFDictionaryGetString(annotationDictionary, key, &fieldName)) ? @"" : (NSString *) CGPDFStringCopyTextString(fieldName);
+    return [value autorelease];
+}
+
 -(PdfAnnotations*) formElements:(CGPDFArrayRef) annotations
 {
     PdfAnnotations* pdfAnnotations = [[PdfAnnotations alloc] init];
@@ -79,15 +85,11 @@
                         continue;
                     }
                     
-                    CGPDFStringRef fieldName;
-                    NSString* displayName = !CGPDFDictionaryGetString(annotationDictionary, "TU", &fieldName) ?
-                    @"Fill In Here" :
-                    (NSString *) CGPDFStringCopyTextString(fieldName);
-                    
-                    
+                    NSString *displayName = [self getOptionalStringField:"TU" from:annotationDictionary];
+                    NSString *value = [self getOptionalStringField:"V" from:annotationDictionary];
                     CGRect coordinates = [self retrieveCoordinates: rectArray];
                     
-                    AnnotationData* data = [[AnnotationData alloc] initWithPosition:coordinates andDisplay:displayName];
+                    AnnotationData* data = [[AnnotationData alloc] initWithPosition:coordinates andValue:value andDisplay:displayName];
                     NSString* key = (NSString *) CGPDFStringCopyTextString(fullName);
                     //#TODO break this out into other methods
                     if(strcmp(fieldType, "Tx") == 0){
@@ -107,16 +109,15 @@
                         if(!CGPDFDictionaryGetArray(annotationDictionary, "Opt", &options)) {
                             continue;
                         }
-                        data.values = [self toArray:options];
+                        data.options = [self toArray:options];
                         [pdfAnnotations addChoiceEntry:key withValue:data];
                         
                     }
                     else{
                         NSLog(@"Unhandled type %s", fieldType);
                     }
-                    //[key release];
-                    //[displayName release];
-                    //[data release];
+                    [key release];
+                    [data release];
                 }
             }
         }  

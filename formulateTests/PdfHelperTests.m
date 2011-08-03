@@ -88,6 +88,13 @@
     STAssertTrue([data.toolTip isEqualToString:@"EMPLOYEE SIGNATURE"] , @"Employee Signature Should Have A Name Of Employee Signature", data.toolTip);
 }
 
+-(void)testValueFromLastNameShouldBeEmpty
+{
+    PdfAnnotations* fields = [helper formElements:[helper formFieldsonPage:1]];
+    AnnotationData* data = [[fields getTextFields] objectForKey:@"Name_Last"];
+    STAssertTrue([data.value isEqualToString:@""] , @"last name should have a value of an empty string", data.value);
+}
+
 -(void)testRetrievingTheFormFieldsShouldReturn1ChoiceFields
 {
     PdfAnnotations* fields = [helper formElements:[helper formFieldsonPage:1]];
@@ -99,7 +106,7 @@
 {
     PdfAnnotations* fields = [helper formElements:[helper formFieldsonPage:1]];
     AnnotationData* data = [[fields getChoiceFields] objectForKey:@"Position"];
-    int count = data.values.count;
+    int count = data.options.count;
     STAssertEquals(4, count, @"the values array should contain four optins for the select list", count); 
 }
 @end

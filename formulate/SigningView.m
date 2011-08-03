@@ -26,6 +26,8 @@
 @synthesize  location;
 @synthesize  previousLocation;
 
+static EAGLSharegroup *shareGroup;
+
 // Implement this to override the default layer class (which is [CALayer class]).
 // We do this so that our view will be backed by a layer that is capable of OpenGL ES rendering.
 + (Class) layerClass
@@ -33,15 +35,23 @@
 	return [CAEAGLLayer class];
 }
 
++(void)initialize{
+    if(!shareGroup){
+        EAGLContext* context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1];
+        shareGroup = context.sharegroup;
+    }
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     return YES;
-
+    
 	
 }
 
-- (id)initWithFrame:(CGRect)frame {
 
-    if ((self = [super initWithFrame:frame])) {
+- (id)initWithFrame:(CGRect)frame {
+    
+    if ((self = [super initWithFrame:frame])){
         [self styleThis];  
         [self buildOutDrawingArea];  
     }
@@ -63,7 +73,8 @@
     eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
                                     [NSNumber numberWithBool:YES], kEAGLDrawablePropertyRetainedBacking, kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
     
-    context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1];
+    context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1 sharegroup:shareGroup];
+    
     
     if (!context || ![EAGLContext setCurrentContext:context]) {
         [self release];
@@ -184,6 +195,8 @@
 	
 	glBindFramebufferOES(GL_FRAMEBUFFER_OES, viewFramebuffer);
 	glBindRenderbufferOES(GL_RENDERBUFFER_OES, viewRenderbuffer);
+    
+    NSLog(@"created these buffers %i and %i", viewFramebuffer, viewRenderbuffer);
 	// This call associates the storage for the current render buffer with the EAGLDrawable (our CAEAGLLayer)
 	// allowing us to draw into a buffer that will later be rendered to screen wherever the layer is (which corresponds with our view).
 	[context renderbufferStorage:GL_RENDERBUFFER_OES fromDrawable:(id<EAGLDrawable>)self.layer];
@@ -323,7 +336,7 @@
 	//Convert touch point from UIView referential to OpenGL one (upside-down flip)
 	location = [touch locationInView:self];
 	location.y = bounds.size.height - location.y;
-
+    
 }
 
 // Handles the continuation of a touch.
@@ -378,14 +391,20 @@ void releaseData(void *info, const void *data, size_t dataSize) {
 }
 
 -(UIImage *) glToUIImage {
-	CGRect rect = [[UIScreen mainScreen] bounds];
+	//CGRect rect = [[UIScreen mainScreen] bounds];
+    
+    CGRect rect = [self bounds];
 	int width = rect.size.width;
 	int height = rect.size.height;
-	
+    
 	NSInteger myDataLength = width * height * 4;
 	GLubyte *buffer = (GLubyte *) malloc(myDataLength);
 	GLubyte *buffer2 = (GLubyte *) malloc(myDataLength);
-	glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
+    
+
+    [EAGLContext setCurrentContext:context];
+    glBindFramebufferOES(GL_FRAMEBUFFER_OES, viewFramebuffer);
+    glReadPixels(rect.origin.x, rect.origin.y, width, height, GL_RGBA, GL_UNSIGNED_BYTE, buffer);   
 	for(int y = 0; y <height; y++) {
 		for(int x = 0; x <width * 4; x++) {
 			buffer2[((height - 1 - y) * width * 4 + x)] = buffer[(y * 4 * width + x)];
@@ -408,9 +427,10 @@ void releaseData(void *info, const void *data, size_t dataSize) {
 	UIImage *image = [[UIImage alloc] initWithCGImage:imageRef];
 	CGImageRelease(imageRef);
 	
-	UIImage *img = [image croppedImage:CGRectMake(0, 890, 500, 410)];
-	//UIImageWriteToSavedPhotosAlbum(img, self, nil, nil);
-	return img;
+	//UIImage *img = [image croppedImage:CGRectMake(0, 890, 500, 410)];
+	//UIImageWriteToSavedPhotosAlbum(image, self, nil, nil);
+    
+	return image;
 }
 
 

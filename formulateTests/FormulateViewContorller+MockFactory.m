@@ -16,6 +16,7 @@
 -(UITextField*)buildTextFieldAt:(CGRect)position{
     id mock = [OCMockObject mockForClass:[UITextField class]];
     [[[mock stub] andReturn:@"Test"] text];
+    [[mock stub] setText:[OCMArg isNotNil]];
     return mock;
 }
 
