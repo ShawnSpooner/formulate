@@ -81,16 +81,12 @@ typedef NSString* (^StringBlock)();
 											CGContextGetClipBoundingBox(ctx));
 	CGContextConcatCTM(ctx, transform);
 	CGContextDrawPDFPage(ctx, page);
-    [formElements moveToPage:pageNumber];
 }
 
-
-//
 
 - (void) viewDidLoad {
 	[super viewDidLoad];
 	leavesView.backgroundRendering = YES;
-	[self displayPageNumber:1];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -102,6 +98,7 @@ typedef NSString* (^StringBlock)();
 {
     [self attachKeyboardHandlers];
     [super viewDidAppear:animated];
+    [self displayPageNumber:1];
 }
 
 -(void) attachKeyboardHandlers{
@@ -122,7 +119,7 @@ typedef NSString* (^StringBlock)();
 }
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
-    UITextField *textField = [change objectForKey:keyPath];
+    UITextField *textField = [change objectForKey:@"new"];
     shouldScroll = textField.frame.origin.y > 740;//change this to be less hacky  
 }
 
