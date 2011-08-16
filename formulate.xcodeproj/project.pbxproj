@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		89456FB813F99A8B007F6BFE /* FormCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 89456FB713F99A8B007F6BFE /* FormCollection.m */; };
 		8954367C13D9F204007A1F01 /* SimplePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8954367B13D9F203007A1F01 /* SimplePicker.m */; };
 		895A165C13CBABF6000F4CE5 /* PdfAnnotations.m in Sources */ = {isa = PBXBuildFile; fileRef = 895A165B13CBABF6000F4CE5 /* PdfAnnotations.m */; };
 		895A166013CBADFC000F4CE5 /* AnnotationData.m in Sources */ = {isa = PBXBuildFile; fileRef = 895A165F13CBADFC000F4CE5 /* AnnotationData.m */; };
@@ -57,6 +58,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		89456FB613F99A8B007F6BFE /* FormCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FormCollection.h; sourceTree = "<group>"; };
+		89456FB713F99A8B007F6BFE /* FormCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FormCollection.m; sourceTree = "<group>"; };
 		8954367A13D9F203007A1F01 /* SimplePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimplePicker.h; sourceTree = "<group>"; };
 		8954367B13D9F203007A1F01 /* SimplePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimplePicker.m; sourceTree = "<group>"; };
 		895A165A13CBABF6000F4CE5 /* PdfAnnotations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PdfAnnotations.h; sourceTree = "<group>"; };
@@ -246,6 +249,8 @@
 				895A165B13CBABF6000F4CE5 /* PdfAnnotations.m */,
 				895A165E13CBADFC000F4CE5 /* AnnotationData.h */,
 				895A165F13CBADFC000F4CE5 /* AnnotationData.m */,
+				89456FB613F99A8B007F6BFE /* FormCollection.h */,
+				89456FB713F99A8B007F6BFE /* FormCollection.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -446,6 +451,7 @@
 				89D4D41313D0B69700CD1455 /* Base64Encoder.m in Sources */,
 				8954367C13D9F204007A1F01 /* SimplePicker.m in Sources */,
 				89E50DBE13DDDA4B00381E78 /* ActionSheetPicker.m in Sources */,
+				89456FB813F99A8B007F6BFE /* FormCollection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

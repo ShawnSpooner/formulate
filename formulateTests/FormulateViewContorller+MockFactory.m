@@ -11,7 +11,7 @@
 #import "SimpleCheckbox.h"
 #import "SigningView.h"
 
-@implementation FormulateViewController (FormulateViewContorller_MockFactory)
+@implementation FormCollection (FormCollection_MockFactory)
 
 -(UITextField*)buildTextFieldAt:(CGRect)position{
     id mock = [OCMockObject mockForClass:[UITextField class]];

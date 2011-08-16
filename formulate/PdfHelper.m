@@ -48,7 +48,7 @@
 
 -(CGPDFArrayRef)formFieldsonPage:(int)page
 {
-    return [PdfHelper annotations:pdf onPage:1];
+    return [PdfHelper annotations:pdf onPage:page];
 }
 
 -(NSString*)getOptionalStringField:(char*)key from:(CGPDFDictionaryRef)annotationDictionary{

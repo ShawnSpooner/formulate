@@ -8,7 +8,7 @@
 
 #import "formulateTests.h"
 #import "PdfHelper.h"
-#import "FormulateViewController.h"
+#import "FormCollection.h"
 #import "AnnotationData.h"
 
 @implementation formulateTests
@@ -17,7 +17,9 @@ typedef NSString* (^StringBlock)();
 - (void)setUp
 {
     [super setUp];
-    controller = [[FormulateViewController alloc] init];
+    CFURLRef pdfURL = CFBundleCopyResourceURL(CFBundleGetMainBundle(), CFSTR("form.pdf"), NULL, NULL);
+    PdfHelper *pdfWrapper = [[PdfHelper alloc] initWithPdf:pdfURL];
+    controller = [[FormCollection alloc] initWithPdf:pdfWrapper andView:Nil];
     
     textFields = [[NSMutableDictionary alloc] init];
     signatureFields = [[NSMutableDictionary alloc] init];
@@ -61,6 +63,11 @@ typedef NSString* (^StringBlock)();
     STAssertTrue([name() isEqualToString:@"Signature"] , @"value of last name field should be Signature", name());
 }
 
+-(void)afterMovingToPage2NewElementsShouldBeVisible{
+    [controller moveToPage:2];
+    StringBlock name = [[controller getFormElements] objectForKey:@"Signature"];
+    STAssertTrue([name() isEqualToString:@"Test"] , @"value of page 2 test 2 should be Test", name());
+}
 
 
 @end

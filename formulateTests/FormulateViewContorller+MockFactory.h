@@ -7,10 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "FormulateViewController.h"
+#import "FormCollection.h"
 @class SimpleCheckbox, SigningView;
 
-@interface FormulateViewController (FormulateViewContorller_MockFactory)
+@interface FormCollection (FormCollection_MockFactory)
 
 -(UITextField*)buildTextFieldAt:(CGRect)position;
 -(SimpleCheckbox*)buildCheckboxAt:(CGRect)position;
