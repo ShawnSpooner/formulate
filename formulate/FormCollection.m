@@ -14,6 +14,7 @@
 #import "SimpleCheckbox.h"
 #import "SigningView.h"
 #import "SimplePicker.h"
+#import <QuartzCore/QuartzCore.h>
 
 typedef NSString* (^StringBlock)();
 
@@ -83,11 +84,10 @@ typedef NSString* (^StringBlock)();
 
 -(SimpleCheckbox*)buildCheckboxAt:(CGRect)position{
     SimpleCheckbox *pdfCheckbox = [[SimpleCheckbox alloc] initWithFrame:position];
-    
-    CALayer * border = [pdfCheckbox layer];
-    [border setMasksToBounds:YES];
-    [border setBorderWidth:2.0];
-    [border setBorderColor:[[UIColor greenColor] CGColor]];  
+    CALayer * border = pdfCheckbox.layer;
+    border.masksToBounds = YES;
+    border.borderWidth = 2.0;
+    border.borderColor = [[UIColor greenColor] CGColor];  
     return [pdfCheckbox autorelease];
 }
 

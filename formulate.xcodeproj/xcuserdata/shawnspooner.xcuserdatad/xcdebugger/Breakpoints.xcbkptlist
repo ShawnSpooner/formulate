@@ -107,11 +107,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "formulate/FormCollection.m"
-         timestampString = "335138902.778386"
+         timestampString = "335221932.821137"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "55"
-         endingLineNumber = "55"
+         startingLineNumber = "56"
+         endingLineNumber = "56"
          landmarkName = "-cleanFormControls"
          landmarkType = "5">
       </FileBreakpoint>
@@ -163,7 +163,21 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "formulate/FormulateViewController.m"
-         timestampString = "335219636.231744"
+         timestampString = "335220124.630586"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "122"
+         endingLineNumber = "122"
+         landmarkName = "-observeValueForKeyPath:ofObject:change:context:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "formulate/FormulateViewController.m"
+         timestampString = "335220124.630586"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "123"
@@ -176,13 +190,27 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          isPathRelative = "1"
-         filePath = "formulate/FormulateViewController.m"
-         timestampString = "335219801.06351"
+         filePath = "formulate/FormCollection.m"
+         timestampString = "335221932.821137"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "124"
-         endingLineNumber = "124"
-         landmarkName = "-observeValueForKeyPath:ofObject:change:context:"
+         startingLineNumber = "88"
+         endingLineNumber = "88"
+         landmarkName = "-buildCheckboxAt:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "formulate/FormCollection.m"
+         timestampString = "335221938.295522"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "89"
+         endingLineNumber = "89"
+         landmarkName = "-buildCheckboxAt:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
